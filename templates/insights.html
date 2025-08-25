@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Dataset Insights</h2>
+
+{% if insights %}
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5>Summary Statistics</h5>
+      <pre>{{ insights }}</pre>
+    </div>
+  </div>
+{% else %}
+  <p>No insights generated yet. Please upload and process a dataset.</p>
+{% endif %}
+{% endblock %}
