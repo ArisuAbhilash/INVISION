@@ -1,37 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InVision | {{ title }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InVision Clone</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
-<body class="bg-light">
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">InVision</div>
+            <nav>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Policy</a></li>
+                    <li><a href="#">Signup</a></li>
+                    <li><a href="#" class="login-btn">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">InVision</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('upload') }}">Upload</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('visualize') }}">Visualize</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('insights') }}">Insights</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover patterns. Unlock insights. See the story in your data.</h1>
+        <p>Your data holds countless stories. We give you the tools to unlock, explore, and present those stories with clarity, precision, and impact.</p>
+    </section>
 
-  <!-- Main Content -->
-  <div class="container py-4">
-    {% block content %}{% endblock %}
-  </div>
+    <!-- Features Section -->
+    <section class="features container">
+        <div class="feature-card">
+            <h3>Visualize Data</h3>
+            <p>Turn raw data into clear charts and graphs to understand insights quickly.</p>
+        </div>
+        <div class="feature-card"></div>
+        <div class="feature-card"></div>
+        <div class="feature-card"></div>
+        <div class="feature-card"></div>
+        <div class="feature-card"></div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="bg-primary text-white text-center py-3 mt-5">
-    <p class="mb-0">&copy; 2025 InVision - Bringing your data into vision.</p>
-  </footer>
+    <!-- Testimonials -->
+    <section class="testimonials container">
+        <h2>What Our Clients Say About Us</h2>
+        <div class="testimonial-card">
+            <div class="user-info">
+                <div class="avatar"></div>
+                <div class="user-name">Leo</div>
+                <div class="role">Lead Designer</div>
+            </div>
+            <p>It was a very good experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+        <div class="testimonial-card">
+            <div class="user-info">
+                <div class="avatar"></div>
+                <div class="user-name">Leo</div>
+                <div class="role">Lead Designer</div>
+            </div>
+            <p>It was a very good experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+        <div class="testimonial-card">
+            <div class="user-info">
+                <div class="avatar"></div>
+                <div class="user-name">Leo</div>
+                <div class="role">Lead Designer</div>
+            </div>
+            <p>It was a very good experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="logo">InVision</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <p>Topic</p>
+                    <p>Page</p>
+                    <p>Page</p>
+                    <p>Page</p>
+                </div>
+                <div class="footer-column">
+                    <p>Topic</p>
+                    <p>Page</p>
+                    <p>Page</p>
+                    <p>Page</p>
+                </div>
+            </div>
+            <div class="social-icons">
+                <span>🌐</span>
+                <span>📘</span>
+                <span>🐦</span>
+                <span>📸</span>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
