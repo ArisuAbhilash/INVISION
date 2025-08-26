@@ -19,29 +19,32 @@ a {
 
 .container {
   margin: auto;
-  
+
 }
 
+/* Navbar container */
 nav.container {
-  position: fixed;        /* stays at the top */
+  position: fixed;
+  /* stays at the top */
   top: 0;
   left: 0;
-  width: 100%;            /* full width */
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 15px 50px;
   font-family: Arial, sans-serif;
-  background-color: #ffe4e1; /* light pink */
-  z-index: 1000;          /* keeps it above other elements */
+  background-color: #ffe4e1;
+
+  z-index: 1000;
+
 }
 
-/* Logo */
+
 .logo img {
   height: 40px;
   width: auto;
 }
 
-/* Push all menus & button to the right */
 nav.container ul {
   list-style: none;
   display: flex;
@@ -49,7 +52,6 @@ nav.container ul {
   margin: 0;
   padding: 0;
   margin-left: auto;
-  /* 👈 pushes menu to the right */
 }
 
 nav.container ul li a {
@@ -65,7 +67,6 @@ nav.container ul li a:hover {
   color: #007BFF;
 }
 
-/* Login button */
 .btn {
   background: black;
   color: white;
@@ -77,12 +78,28 @@ nav.container ul li a:hover {
   text-transform: uppercase;
   transition: background 0.3s;
   margin-left: 20px;
-  /* spacing between menu & button */
 }
 
 .btn:hover {
   background: #333;
 }
+
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+  margin-right: 20px;
+}
+
+.close-btn {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+}
+
 
 /* ===== Hero Section ===== */
 .hero {
@@ -96,14 +113,13 @@ nav.container ul li a:hover {
 
 .hero-text {
   flex: 1;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
 .hero-text h1 {
-  /* Discover patterns. Unlock insights. See the story in your data. */
-  
   height: auto;
   font-family: 'Courier New', Courier, monospace;
-  /* font-style: bold; */
   font-weight: 400;
   font-size: 50px;
   line-height: 64px;
@@ -119,7 +135,7 @@ nav.container ul li a:hover {
 }
 
 .hero-text p {
-  
+
   height: auto;
   font-family: 'Courier New', Courier, monospace;
   font-weight: 400;
@@ -139,12 +155,12 @@ nav.container ul li a:hover {
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 72px;
+  gap: 60px;
   margin-top: 20px;
 }
 
 .card {
-  width: 340px;
+  max-width: 340px;
   height: 350px;
   background: #fff;
   border: 1px solid #ddd;
@@ -161,7 +177,6 @@ nav.container ul li a:hover {
 
 .card .icon {
   background: #fff4f4;
-  /* light bg for icon area */
   width: 70px;
   height: 70px;
   border-radius: 12px;
@@ -187,22 +202,25 @@ nav.container ul li a:hover {
   font-size: 20px;
   line-height: 1.4;
 }
+
 .features h2 {
-  font-size: 2.5rem;           /* larger size */
-  font-weight: 800;            /* extra bold */
-  color: #222;                 /* strong contrast */
+  font-size: 2.5rem;
+  /* larger size */
+  font-weight: 800;
+  /* extra bold */
+  color: #222;
   text-align: center;
   margin-bottom: 50px;
-  letter-spacing: 1px;         /* slight spacing */
-  position: relative;      /* for underline decoration */
+  letter-spacing: 1px;
+  position: relative;
 }
 
 .features h2::after {
   content: "";
   display: block;
-  width: 80px;                 /* underline width */
+  width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, #007BFF, #00C9A7); /* gradient accent */
+  background: linear-gradient(90deg, #007BFF, #00C9A7);
   margin: 14px auto 0;
   border-radius: 2px;
 }
@@ -255,4 +273,103 @@ footer {
 
 footer p {
   margin: 0.5rem 0;
+}
+
+
+@media (max-width: 640px) {
+  nav.container {
+    justify-content: space-between;
+    padding: 15px 20px;
+    /* smaller padding on mobile */
+  }
+
+  /* Show hamburger only on mobile */
+  .hamburger {
+    display: block;
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  /* Nav menu styling for mobile */
+  nav.container ul {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* hidden by default */
+    width: 220px;
+    height: 100vh;
+    background: #ffe4e1;
+    flex-direction: column;
+    gap: 20px;
+    padding: 60px 20px;
+    transition: left 0.3s ease;
+    z-index: 1001;
+  }
+
+  /* When menu is active */
+  nav.container ul.active {
+    left: 0;
+  }
+
+  /* Close button inside menu */
+  nav.container ul .close-btn {
+    display: none;
+    /* hidden by default */
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  /* Show close button only when menu is active */
+  nav.container ul.active .close-btn {
+    display: block;
+  }
+
+  /* Hide login button on mobile top bar */
+  .btn {
+    display: none;
+  }
+
+  /* Desktop view */
+  @media (min-width: 768px) {
+    .hamburger {
+      display: none;
+      /* hide hamburger on desktop */
+    }
+
+    nav.container ul {
+      position: static;
+      flex-direction: row;
+      height: auto;
+      background: transparent;
+      padding: 0;
+      gap: 30px;
+      left: 0 !important;
+      transition: none;
+    }
+
+    nav.container ul .close-btn {
+      display: none !important;
+      /* never show close button on desktop */
+    }
+
+    .btn {
+      display: inline-block;
+      /* show login button back on desktop */
+    }
+  }
+
+  .features {
+    justify-items: center;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+    gap: 16px;
+    margin-top: 20px;
+  }
 }

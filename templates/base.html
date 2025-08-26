@@ -10,22 +10,29 @@
 </head>
 
 <body>
-  <!-- Navbar -->
   <nav class="container">
+    <!-- Hamburger menu (hidden on desktop) -->
+    <div class="hamburger" id="hamburger">☰</div>
+
+    <!-- Logo -->
     <div class="logo">
       <a href="{{ url_for('home') }}">
         <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Logo">
       </a>
     </div>
-    <ul>
+
+    <!-- Navigation menu -->
+    <ul id="nav-menu">
+      <span class="close-btn" id="close-btn">&times;</span><!-- Close button -->
       <li><a href="#">Home</a></li>
-      <li><a href="#">contact</a></li>
+      <li><a href="#">Contact</a></li>
       <li><a href="#">Policy</a></li>
       <li><a href="#">Signup</a></li>
     </ul>
+
+    <!-- Login button -->
     <a href="#" class="btn">Login</a>
   </nav>
-
   <!-- Hero Section -->
   <section class="hero container">
     <div class="hero-text">
@@ -100,6 +107,28 @@
     <p>&copy; 2025 MyBrand. All rights reserved.</p>
     <p>Made with ❤️ using HTML & CSS</p>
   </footer>
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
+    const closeBtn = document.getElementById("close-btn");
+
+    // Open menu
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.add("active");
+    });
+
+    // Close menu
+    closeBtn.addEventListener("click", () => {
+      navMenu.classList.remove("active");
+    });
+
+    // Close when clicking a link
+    document.querySelectorAll("#nav-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+      });
+    });
+  </script>
 </body>
 
 </html>
