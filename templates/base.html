@@ -1,101 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InVision Clone</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InVision - Data Insights & Visualization</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+
 </head>
+
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">InVision</div>
-            <nav>
-                <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Policy</a></li>
-                    <li><a href="#">Signup</a></li>
-                    <li><a href="#" class="login-btn">Login</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  <!-- Navbar -->
+  <nav class="container">
+    <div class="logo">
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Logo">
+      </a>
+    </div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">contact</a></li>
+      <li><a href="#">Policy</a></li>
+      <li><a href="#">Signup</a></li>
+    </ul>
+    <a href="#" class="btn">Login</a>
+  </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Discover patterns. Unlock insights. See the story in your data.</h1>
-        <p>Your data holds countless stories. We give you the tools to unlock, explore, and present those stories with clarity, precision, and impact.</p>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero container">
+    <div class="hero-text">
+      <h1>Discover patterns. Unlock insights. See the story in your data.</h1>
+      <p>Your data holds countless stories. We give you the tools to unlock, explore, and present those
+        stories with clarity,precision, and impact.</p>
+    </div>
+  </section>
 
-    <!-- Features Section -->
-    <section class="features container">
-        <div class="feature-card">
-            <h3>Visualize Data</h3>
-            <p>Turn raw data into clear charts and graphs to understand insights quickly.</p>
-        </div>
-        <div class="feature-card"></div>
-        <div class="feature-card"></div>
-        <div class="feature-card"></div>
-        <div class="feature-card"></div>
-        <div class="feature-card"></div>
-    </section>
+  <!-- Features Section -->
+  <section class="features container">
+    <h2>Our Features</h2>
+    <div class="feature-grid">
+      <div class="card">
+        <h3></h3>
+        <p>Optimized and responsive layout.</p>
+      </div>
+      <div class="card">
+        <h3>Secure</h3>
+        <p>Built with modern practices.</p>
+      </div>
+      <div class="card">
+        <h3>Customizable</h3>
+        <p>Easy to edit and extend.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials container">
-        <h2>What Our Clients Say About Us</h2>
-        <div class="testimonial-card">
-            <div class="user-info">
-                <div class="avatar"></div>
-                <div class="user-name">Leo</div>
-                <div class="role">Lead Designer</div>
-            </div>
-            <p>It was a very good experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2>What Our Users Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <p>"This landing page is super clean and easy to use!"</p>
+          <h4>- Alex</h4>
         </div>
-        <div class="testimonial-card">
-            <div class="user-info">
-                <div class="avatar"></div>
-                <div class="user-name">Leo</div>
-                <div class="role">Lead Designer</div>
-            </div>
-            <p>It was a very good experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <div class="testimonial">
+          <p>"The best starting template I’ve used so far."</p>
+          <h4>- Priya</h4>
         </div>
-        <div class="testimonial-card">
-            <div class="user-info">
-                <div class="avatar"></div>
-                <div class="user-name">Leo</div>
-                <div class="role">Lead Designer</div>
-            </div>
-            <p>It was a very good experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <div class="testimonial">
+          <p>"Saved me hours of work, looks professional."</p>
+          <h4>- John</h4>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-container">
-            <div class="logo">InVision</div>
-            <div class="footer-links">
-                <div class="footer-column">
-                    <p>Topic</p>
-                    <p>Page</p>
-                    <p>Page</p>
-                    <p>Page</p>
-                </div>
-                <div class="footer-column">
-                    <p>Topic</p>
-                    <p>Page</p>
-                    <p>Page</p>
-                    <p>Page</p>
-                </div>
-            </div>
-            <div class="social-icons">
-                <span>🌐</span>
-                <span>📘</span>
-                <span>🐦</span>
-                <span>📸</span>
-            </div>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 MyBrand. All rights reserved.</p>
+    <p>Made with ❤️ using HTML & CSS</p>
+  </footer>
 </body>
+
 </html>
