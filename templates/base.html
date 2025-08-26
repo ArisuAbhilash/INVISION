@@ -37,26 +37,46 @@
 
   <!-- Features Section -->
   <section class="features container">
-    <h2>Our Features</h2>
+    <h2>Why Choose Us</h2>
     <div class="feature-grid">
-      <div class="card">
-        <h3></h3>
-        <p>Optimized and responsive layout.</p>
-      </div>
-      <div class="card">
+
+      <!-- Card 1 -->
+      <a href="/visualize" class="card">
+        <div class="icon">
+          <img src="{{ url_for('static', filename='images/graph-icon.png') }}" alt="Graph">
+        </div>
+        <h3>Visualize Data</h3>
+        <p>Upload your files and generate stunning charts & graphs.
+          Upload your files and generate stunning charts & graphs.
+        </p>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="/secure" class="card">
+        <div class="icon">
+          <img src="secure-icon.png" alt="Secure">
+        </div>
         <h3>Secure</h3>
         <p>Built with modern practices.</p>
-      </div>
-      <div class="card">
+      </a>
+
+      <!-- Card 3 -->
+      <a href="/customize" class="card">
+        <div class="icon">
+          <img src="customize-icon.png" alt="Customizable">
+        </div>
         <h3>Customizable</h3>
         <p>Easy to edit and extend.</p>
-      </div>
+      </a>
+
     </div>
   </section>
 
+
+
   <!-- Testimonials -->
   <section class="testimonials">
-    <div class="container">
+    <div class="container1">
       <h2>What Our Users Say</h2>
       <div class="testimonial-grid">
         <div class="testimonial">
