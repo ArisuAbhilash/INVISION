@@ -1,0 +1,84 @@
+/* Scope all styles only inside login-page */
+
+.main-content {
+  background: url("../images/2.jpg"); /* Full image */
+  background-attachment: fixed; 
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; /* Make sure background fills the screen */
+}
+
+/* Center login card vertically & horizontally */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full height for login page */
+}
+
+/* Login card */
+.login-page .login-box {
+  background: rgba(255, 255, 255, 0.2); /* Transparent white */
+  backdrop-filter: blur(12px);          /* Glass blur effect */
+  -webkit-backdrop-filter: blur(12px);  /* Safari support */
+  border-radius: 15px;
+  padding: 40px;
+  width: 350px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Stronger shadow for contrast */
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border for glass look */
+}
+
+/* Heading */
+.login-page .login-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input groups */
+.login-page .input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.login-page .input-group label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+.login-page .input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* Login button (unique class to avoid conflict with nav bar) */
+.login-page .login-btn {
+  width: 100%;
+  padding: 10px;
+  background: #0d6efd;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Signup text */
+.login-page .signup-text {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.login-page .signup-text a {
+  color: #0d6efd;
+  text-decoration: none;
+}
