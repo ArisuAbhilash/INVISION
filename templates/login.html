@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="login-page">   <!-- wrapper for scoping -->
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login to InVision</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+        <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
