@@ -7,6 +7,7 @@
   <title>InVision - Data Insights & Visualization</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
+{% block head %}{% endblock %}
 </head>
 
 <body>
@@ -24,7 +25,7 @@
     <!-- Navigation menu -->
     <ul id="nav-menu">
       <span class="close-btn" id="close-btn">&times;</span><!-- Close button -->
-      <li><a href="#">Home</a></li>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
       <li><a href="#">Contact</a></li>
       <li><a href="#">Policy</a></li>
       <li><a href="#">Signup</a></li>
@@ -33,80 +34,19 @@
     <!-- Login button -->
     <a href="#" class="btn">Login</a>
   </nav>
-  <!-- Hero Section -->
-  <section class="hero container">
-    <div class="hero-text">
-      <h1>Discover patterns. Unlock insights. See the story in your data.</h1>
-      <p>Your data holds countless stories. We give you the tools to unlock, explore, and present those
-        stories with clarity,precision, and impact.</p>
-    </div>
-  </section>
 
-  <!-- Features Section -->
-  <section class="features container">
-    <h2>Why Choose Us</h2>
-    <div class="feature-grid">
-
-      <!-- Card 1 -->
-      <a href="/visualize" class="card">
-        <div class="icon">
-          <img src="{{ url_for('static', filename='images/graph-icon.png') }}" alt="Graph">
-        </div>
-        <h3>Visualize Data</h3>
-        <p>Upload your files and generate stunning charts & graphs.
-          Upload your files and generate stunning charts & graphs.
-        </p>
-      </a>
-
-      <!-- Card 2 -->
-      <a href="/secure" class="card">
-        <div class="icon">
-          <img src="secure-icon.png" alt="Secure">
-        </div>
-        <h3>Secure</h3>
-        <p>Built with modern practices.</p>
-      </a>
-
-      <!-- Card 3 -->
-      <a href="/customize" class="card">
-        <div class="icon">
-          <img src="customize-icon.png" alt="Customizable">
-        </div>
-        <h3>Customizable</h3>
-        <p>Easy to edit and extend.</p>
-      </a>
-
-    </div>
-  </section>
-
-
-
-  <!-- Testimonials -->
-  <section class="testimonials">
-    <div class="container1">
-      <h2>What Our Users Say</h2>
-      <div class="testimonial-grid">
-        <div class="testimonial">
-          <p>"This landing page is super clean and easy to use!"</p>
-          <h4>- Alex</h4>
-        </div>
-        <div class="testimonial">
-          <p>"The best starting template I’ve used so far."</p>
-          <h4>- Priya</h4>
-        </div>
-        <div class="testimonial">
-          <p>"Saved me hours of work, looks professional."</p>
-          <h4>- John</h4>
-        </div>
-      </div>
-    </div>
-  </section>
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
 
   <!-- Footer -->
+  {% if not login_page %}
+
   <footer>
     <p>&copy; 2025 MyBrand. All rights reserved.</p>
     <p>Made with ❤️ using HTML & CSS</p>
   </footer>
+  {% endif %}
   <script>
     const hamburger = document.getElementById("hamburger");
     const navMenu = document.getElementById("nav-menu");
