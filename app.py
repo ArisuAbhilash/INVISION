@@ -16,7 +16,20 @@ def home():
     return render_template("home.html", title="Home")
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
 
+        # Dummy authentication check
+        if email == "admin@example.com" and password == "1234":
+            flash("Login successful!", "success")
+            return redirect(url_for("home"))
+        else:
+            flash("Invalid credentials. Try again.", "danger")
+
+    return render_template("login.html", title="Login" ,login_page=True)
 
 
 if __name__ == "__main__":
