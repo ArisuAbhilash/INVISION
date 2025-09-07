@@ -1,0 +1,86 @@
+.main-content {
+  background: url("../images/2.jpg"); 
+  background-attachment: fixed; 
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+/* Center signup card */
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Signup card */
+.signup-box {
+  background: rgba(255, 255, 255, 0.2); /* Transparent white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 40px;
+  width: 400px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Heading */
+.signup-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input groups */
+.signup-box .input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.signup-box .input-group label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+.signup-box .input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* Signup button */
+.signup-btn {
+  width: 100%;
+  padding: 10px;
+  background: #28a745; /* Green for signup */
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.signup-btn:hover {
+  background: #218838;
+}
+
+/* Login redirect text */
+.login-text {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.login-text a {
+  color: #0d6efd;
+  text-decoration: none;
+}
