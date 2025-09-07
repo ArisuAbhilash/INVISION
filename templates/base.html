@@ -28,7 +28,7 @@
       <li><a href="{{ url_for('home') }}">Home</a></li>
       <li><a href="#">Contact</a></li>
       <li><a href="#">Policy</a></li>
-      <li><a href="#">Signup</a></li>
+      <li><a href="{{url_for('signup') }}">Signup</a></li>
     </ul>
 
     <!-- Login button -->
@@ -40,11 +40,11 @@
   </main>
 
   <!-- Footer -->
-  {% if not login_page %}
+  {% if not login_page and not signup_page %}
 
   <footer>
     <p>&copy; 2025 MyBrand. All rights reserved.</p>
-    <p>Made with ❤️ using HTML & CSS</p>
+    <p>Made with  using HTML & CSS</p>
   </footer>
   {% endif %}
   <script>

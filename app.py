@@ -32,5 +32,25 @@ def login():
     return render_template("login.html", title="Login" ,login_page=True)
 
 
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    error = None
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
+        # Check password match
+        if password != confirm_password:
+            error = "Passwords do not match!"
+        else:
+            # Save user (or further logic)
+            return redirect(url_for("login"))
+
+    return render_template("signup.html", signup_page=True, error=error)
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
