@@ -59,20 +59,103 @@
 <section class="testimonials">
     <div class="container1">
         <h2>What Our Users Say</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial">
-                <p>"This landing page is super clean and easy to use!"</p>
-                <h4>- Alex</h4>
+
+        <!-- Slider wrapper -->
+        <div class="testimonial-slider">
+
+            <!-- Slide 1 -->
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 1" class="user-pic">
+                <h4>Alex Johnson</h4>
+                <p class="role">Data Analyst</p>
+                <blockquote>"This landing page is super clean and easy to use!"</blockquote>
             </div>
-            <div class="testimonial">
-                <p>"The best starting template I’ve used so far."</p>
-                <h4>- Priya</h4>
+
+            <!-- Slide 2 -->
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 2" class="user-pic">
+                <h4>Priya Sharma</h4>
+                <p class="role">Software Engineer</p>
+                <blockquote>"The best starting template I’ve used so far."</blockquote>
             </div>
-            <div class="testimonial">
-                <p>"Saved me hours of work, looks professional."</p>
-                <h4>- John</h4>
+
+            <!-- Slide 3 -->
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 3" class="user-pic">
+                <h4>John Doe</h4>
+                <p class="role">Product Manager</p>
+                <blockquote>"Saved me hours of work, looks professional."</blockquote>
             </div>
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 2" class="user-pic">
+                <h4>kushagra Sharma</h4>
+                <p class="role">Software Engineer</p>
+                <blockquote>"The best starting template I’ve used so far."</blockquote>
+            </div>
+
+            <!-- Navigation arrows -->
+            <a class="prev">&#10094;</a>
+            <a class="next">&#10095;</a>
+        </div>
+
+        <!-- Navigation dots -->
+        <div class="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
         </div>
     </div>
 </section>
+
+
+{% block scripts %}
+<script>
+    const slides = document.querySelectorAll(".testimonial-card");
+    const dots = document.querySelectorAll(".dot");
+    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".next");
+    let currentIndex = 0;
+    const itemsPerSlide = 2; // Show 2 testimonials at a time
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.display = "none";
+        });
+
+        for (let i = 0; i < itemsPerSlide; i++) {
+            let slideIndex = (index + i) % slides.length;
+            slides[slideIndex].style.display = "block";
+        }
+
+        dots.forEach(dot => dot.classList.remove("active"));
+        dots[Math.floor(index / itemsPerSlide)].classList.add("active");
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + itemsPerSlide) % slides.length;
+        showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - itemsPerSlide + slides.length) % slides.length;
+        showSlide(currentIndex);
+    }
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+            currentIndex = i * itemsPerSlide;
+            showSlide(currentIndex);
+        });
+    });
+
+    nextBtn.addEventListener("click", nextSlide);
+    prevBtn.addEventListener("click", prevSlide);
+
+    // Auto slide every 5 seconds
+    setInterval(nextSlide, 5000);
+
+    // Show the first pair by default
+    showSlide(currentIndex);
+</script>
+{% endblock %}
+
 {% endblock %}
