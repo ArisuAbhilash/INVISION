@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="ccontainer">
+    <main class="row">
+        <section class="col left">
+
+            <!--  *******   Title Starts   *******  -->
+
+            <div class="contactTitle">
+                <h2>Get In Touch</h2>
+                <p>We’d love to hear from you! Drop us a message, and we’ll get back to you soon.</p>
+            </div>
+
+            <!--  *******   Title Ends   *******  -->
+
+            <!--  *******   Contact Info Starts   *******  -->
+
+            <div class="contactInfo">
+
+                <div class="iconGroup">
+                    <div class="icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="details">
+                        <span>Phone</span>
+                        <span>{{phone_no}}</span>
+                    </div>
+                </div>
+
+                <div class="iconGroup">
+                    <div class="icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="details">
+                        <span>Email</span>
+                        <span>{{email_id}}</span>
+                    </div>
+                </div>
+
+                <div class="iconGroup">
+                    <div class="icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="details">
+                        <span>Location</span>
+                        <span>Lucknow, Uttar Pradesh</span>
+                    </div>
+                </div>
+            </div>
+            <div class="socialMedia">
+                <a href="https://www.facebook.com/share/16HVvBqAcX/"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/_abhilash_maurya_/"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/abhilash-maurya-365a941b8"><i
+                        class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+        </section>
+
+
+        <section class="col right">
+            <p class="{{ category }}">{{ message }}</p>
+            <form action="{{ url_for('contact') }}" method="POST" class="messageForm">
+                <div class="inputGroup halfWidth">
+
+                    <!--  *******   Form Starts   *******  -->
+
+                    <form class="messageForm">
+
+                        <div class="inputGroup halfWidth">
+                            <input type="text" name="name" required="required">
+                            <label>Your Name</label>
+                        </div>
+
+                        <div class="inputGroup halfWidth">
+                            <input type="email" name="email" required="required">
+                            <label>Email</label>
+                        </div>
+
+                        <div class="inputGroup fullWidth">
+                            <input type="text" name="subject" required="required">
+                            <label>Subject</label>
+                        </div>
+
+                        <div class="inputGroup fullWidth">
+                            <textarea name="message" required="required"></textarea>
+                            <label>Say Something</label>
+                        </div>
+
+                        <div class="inputGroup fullWidth">
+                            <button>Send Message</button>
+                        </div>
+
+                    </form>
+
+
+                </div> <!--  *******   Form Ends   *******  -->
+        </section>
+
+        <!--  *******   Right Section (Column) Ends   *******  -->
+
+    </main>
+</div>
+
+{% endblock %}

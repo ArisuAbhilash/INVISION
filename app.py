@@ -49,6 +49,9 @@ def signup():
 
     return render_template("signup.html", signup_page=True, error=error)
 
+@app.route("/contact")
+def contact():
+    return render_template("contact.html", title="contact")
 
 
 

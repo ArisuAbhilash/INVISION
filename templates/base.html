@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>InVision - Data Insights & Visualization</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-{% block head %}{% endblock %}
+  {% block head %}{% endblock %}
 </head>
 
 <body>
@@ -26,7 +27,7 @@
     <ul id="nav-menu">
       <span class="close-btn" id="close-btn">&times;</span><!-- Close button -->
       <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="{{ url_for('contact') }}">Contact</a></li>
       <li><a href="#">Policy</a></li>
       <li><a href="{{url_for('signup') }}">Signup</a></li>
     </ul>
@@ -42,10 +43,44 @@
   <!-- Footer -->
   {% if not login_page and not signup_page %}
 
-  <footer>
-    <p>&copy; 2025 MyBrand. All rights reserved.</p>
-    <p>Made with  using HTML & CSS</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+
+      <!-- About / Address -->
+      <div class="footer-section">
+        <h3>InVision</h3>
+        <p>Unlock the power of data with clarity and insights.</p>
+        <p><strong>Address:</strong> Lucknow, Uttar Pradesh, India</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Social Media -->
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 InVision. All rights reserved.</p>
+    </div>
   </footer>
+
   {% endif %}
   <script>
     const hamburger = document.getElementById("hamburger");
@@ -69,7 +104,7 @@
       });
     });
   </script>
-{% block scripts %}{% endblock %}
+  {% block scripts %}{% endblock %}
 </body>
 
 </html>
