@@ -239,12 +239,12 @@
     transition: 0.3s;
     border-radius: 50%;
     user-select: none;
-    background: rgba(255, 255, 255, 0.7);
+    background: transparent;
 }
 
 .prev:hover,
 .next:hover {
-    background: #0d6efd;
+    background:transparent;
     color: #fff;
 }
 
