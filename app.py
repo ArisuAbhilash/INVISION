@@ -53,6 +53,10 @@ def signup():
 def contact():
     return render_template("contact.html", title="contact")
 
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html", title="privacy")
+
 
 
 if __name__ == "__main__":
