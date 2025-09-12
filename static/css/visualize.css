@@ -1,0 +1,6 @@
+#myChart {
+  max-width: 500px;  /* set your desired width */
+  max-height: 300px; /* set your desired height */
+  margin: auto;      /* center align */
+  display: block;
+}

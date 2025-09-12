@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import uuid
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # required for flash messages
 
 # Ensure folder for saving graphs exists
-if not os.path.exists("static/images"):
-    os.makedirs("static/images")
+UPLOAD_FOLDER = "static/images"
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 
 @app.route("/")
@@ -29,7 +31,7 @@ def login():
         else:
             flash("Invalid credentials. Try again.", "danger")
 
-    return render_template("login.html", title="Login" ,login_page=True)
+    return render_template("login.html", title="Login", login_page=True)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -44,18 +46,59 @@ def signup():
         if password != confirm_password:
             error = "Passwords do not match!"
         else:
-            # Save user (or further logic)
+            # TODO: Save user logic here
+            flash("Signup successful! Please log in.", "success")
             return redirect(url_for("login"))
 
     return render_template("signup.html", signup_page=True, error=error)
 
+
 @app.route("/contact")
 def contact():
-    return render_template("contact.html", title="contact")
+    return render_template("contact.html", title="Contact")
+
 
 @app.route("/privacy")
 def privacy():
-    return render_template("privacy.html", title="privacy")
+    return render_template("privacy.html", title="Privacy Policy")
+
+
+@app.route("/visualize", methods=["GET", "POST"])
+def visualize():
+    if request.method == "POST":
+        if "file" not in request.files:
+            return jsonify({"error": "No file part in request"}), 400
+
+        file = request.files["file"]
+
+        if file.filename == "":
+            return jsonify({"error": "No file selected"}), 400
+
+        # Read file with pandas
+        if file.filename.endswith(".csv"):
+            df = pd.read_csv(file)
+        elif file.filename.endswith((".xls", ".xlsx")):
+            df = pd.read_excel(file)
+        else:
+            return jsonify({"error": "Unsupported file type"}), 400
+
+        # Step 1: return column names if no selection yet
+        label_col = request.form.get("label_col")
+        value_col = request.form.get("value_col")
+
+        if not label_col or not value_col:
+            return jsonify({"columns": df.columns.tolist()})
+
+        # Step 2: return selected data
+        try:
+            labels = df[label_col].astype(str).tolist()
+            values = df[value_col].tolist()
+        except KeyError:
+            return jsonify({"error": "Invalid column selection"}), 400
+
+        return jsonify({"labels": labels, "values": values})
+
+    return render_template("visualize.html", title="visualize File")
 
 
 

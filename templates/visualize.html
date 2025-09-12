@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/visualize.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Upload CSV/Excel File</h2>
+
+    <!-- Upload Form -->
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" accept=".csv, .xls, .xlsx" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- Column selection -->
+    <div id="columnSelection" style="display:none; margin-top:20px;">
+        <label for="labelCol">Choose Label Column:</label>
+        <select id="labelCol"></select>
+
+        <label for="valueCol">Choose Value Column:</label>
+        <select id="valueCol"></select>
+
+        <label for="chartType">Chart Type:</label>
+        <select id="chartType">
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+            <option value="pie">Pie</option>
+            <option value="doughnut">Doughnut</option>
+            <option value="radar">Radar</option>
+            <option value="polarArea">Polar Area</option>
+        </select>
+
+        <label>
+            <input type="checkbox" id="showLegend" checked> Show Legend
+        </label>
+
+        <button id="generateChart">Generate Chart</button>
+    </div>
+
+    <hr>
+    <h3>Chart Preview</h3>
+    <canvas id="myChart" width="400" height="200"></canvas>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='script/visualize.js') }}"></script>
+{% endblock %}
