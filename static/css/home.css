@@ -1,12 +1,10 @@
 /* ===== Hero Section ===== */
 
-
-
 .main-content {
-    background: url("../images/2.jpg");
-    /* Show full image without cropping */
-    background-attachment: fixed;
-    background-size: cover;
+  background: url("../images/2.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
 }
 
 .hero {
@@ -273,11 +271,11 @@
 
 
 
-@media (max-width: 640px) {
+@media (max-width: 450px) {
     
     .testimonial-card {
         margin: auto;
-        flex: 0 0 50%;   
+        flex: 0 50% 50%;   
     }
 
 

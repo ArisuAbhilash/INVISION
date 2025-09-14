@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="viscontainer">
     <h2>Upload CSV/Excel File</h2>
 
     <!-- Upload Form -->
@@ -40,7 +40,9 @@
 
     <hr>
     <h3>Chart Preview</h3>
-    <canvas id="myChart" width="400" height="200"></canvas>
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
 </div>
 
 <!-- Chart.js -->

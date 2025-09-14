@@ -10,7 +10,7 @@ const generateBtn = document.getElementById("generateChart");
 let uploadedFile;
 let myChart = null;
 
-uploadForm.addEventListener("submit", async function(e) {
+uploadForm.addEventListener("submit", async function (e) {
   e.preventDefault();
   let formData = new FormData();
   uploadedFile = fileInput.files[0];
@@ -37,7 +37,7 @@ uploadForm.addEventListener("submit", async function(e) {
   }
 });
 
-generateBtn.addEventListener("click", async function() {
+generateBtn.addEventListener("click", async function () {
   let formData = new FormData();
   formData.append("file", uploadedFile);
   formData.append("label_col", labelCol.value);
@@ -78,6 +78,7 @@ generateBtn.addEventListener("click", async function() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,   // 🚀 important for mobile resizing
       plugins: {
         legend: { display: showLegend.checked },
         title: {
@@ -86,8 +87,9 @@ generateBtn.addEventListener("click", async function() {
         }
       },
       scales: chartTypeSelect.value === "pie" || chartTypeSelect.value === "doughnut"
-        ? {} // Pie/Doughnut don’t need axes
+        ? {}
         : { y: { beginAtZero: true } }
     }
   });
+
 });
