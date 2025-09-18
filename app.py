@@ -62,7 +62,6 @@ def contact():
 def privacy():
     return render_template("privacy.html", title="Privacy Policy")
 
-
 @app.route("/visualize", methods=["GET", "POST"])
 def visualize():
     if request.method == "POST":
@@ -70,37 +69,46 @@ def visualize():
             return jsonify({"error": "No file part in request"}), 400
 
         file = request.files["file"]
-
         if file.filename == "":
             return jsonify({"error": "No file selected"}), 400
 
         # Read file with pandas
-        if file.filename.endswith(".csv"):
-            df = pd.read_csv(file)
-        elif file.filename.endswith((".xls", ".xlsx")):
-            df = pd.read_excel(file)
-        else:
-            return jsonify({"error": "Unsupported file type"}), 400
+        try:
+            if file.filename.endswith(".csv"):
+                df = pd.read_csv(file)
+            elif file.filename.endswith((".xls", ".xlsx")):
+                df = pd.read_excel(file)
+            else:
+                return jsonify({"error": "Unsupported file type"}), 400
+        except Exception as e:
+            return jsonify({"error": f"Failed to read file: {e}"}), 400
 
-        # Step 1: return column names if no selection yet
+        # If user hasn't chosen columns yet -> return columns list
         label_col = request.form.get("label_col")
-        value_col = request.form.get("value_col")
+        # IMPORTANT: use getlist to receive multiple values sent as repeated form fields
+        value_cols = request.form.getlist("value_col")
 
-        if not label_col or not value_col:
+        if not label_col or not value_cols:
             return jsonify({"columns": df.columns.tolist()})
 
-        # Step 2: return selected data
+        # Build response: labels + datasets array
         try:
             labels = df[label_col].astype(str).tolist()
-            values = df[value_col].tolist()
-        except KeyError:
-            return jsonify({"error": "Invalid column selection"}), 400
+            datasets = []
+            for col in value_cols:
+                if col not in df.columns:
+                    return jsonify({"error": f"Column '{col}' not found in file."}), 400
+                datasets.append({
+                    "label": col,
+                    "data": pd.Series(df[col]).fillna(0).tolist()  # fill NaN -> 0 to avoid issues
+                })
+        except Exception as e:
+            return jsonify({"error": f"Invalid column selection or data: {e}"}), 400
 
-        return jsonify({"labels": labels, "values": values})
+        return jsonify({"labels": labels, "datasets": datasets})
 
-    return render_template("visualize.html", title="visualize File")
-
-
+    # GET -> render page
+    return render_template("visualize.html", title="Visualize File")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

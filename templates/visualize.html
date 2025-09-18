@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/visualize.css') }}">
+
 {% endblock %}
 
 {% block content %}
@@ -18,8 +19,11 @@
         <label for="labelCol">Choose Label Column:</label>
         <select id="labelCol"></select>
 
-        <label for="valueCol">Choose Value Column:</label>
-        <select id="valueCol"></select>
+        <label for="valueCol">Choose Value Column(s):</label>
+        <select id="valueCol" multiple></select>
+        <small id="multiHelp" style="color: gray; display:block;">
+            (Hold Ctrl or Cmd to select multiple columns)
+        </small>
 
         <label for="chartType">Chart Type:</label>
         <select id="chartType">
@@ -43,9 +47,16 @@
     <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
+    
+    <!-- Download Button -->
+    <div id="downloadSection" style="display:none; text-align:center; margin-top:15px;">
+        <button id="downloadChart">Download Chart</button>
+    </div>
 </div>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='script/visualize.js') }}"></script>
+
+
 {% endblock %}

@@ -231,45 +231,34 @@ nav.container ul li a:hover {
   .btn {
     display: none;
   }
+}
 
-  /* Desktop view */
-  @media (min-width: 768px) {
-    .hamburger {
-      display: none;
-      /* hide hamburger on desktop */
-    }
-
-    nav.container ul {
-      position: static;
-      flex-direction: row;
-      height: auto;
-      background: transparent;
-      padding: 0;
-      gap: 30px;
-      left: 0 !important;
-      transition: none;
-    }
-
-    nav.container ul .close-btn {
-      display: none !important;
-      /* never show close button on desktop */
-    }
-
-    .btn {
-      display: inline-block;
-      /* show login button back on desktop */
-    }
+/* Desktop view */
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+    /* hide hamburger on desktop */
   }
 
-  .features {
-    justify-items: center;
+  nav.container ul {
+    position: static;
+    flex-direction: row;
+    height: auto;
+    background: transparent;
+    padding: 0;
+    gap: 30px;
+    left: 0 !important;
+    transition: none;
   }
 
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
-    gap: 16px;
-    margin-top: 20px;
+  nav.container ul .close-btn {
+    display: none !important;
+    /* never show close button on desktop */
   }
+
+  .btn {
+    display: inline-block;
+    /* show login button back on desktop */
+  }
+
 }

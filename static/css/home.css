@@ -1,10 +1,12 @@
 /* ===== Hero Section ===== */
 
+
+
 .main-content {
-  background: url("../images/2.jpg");
-  background-attachment: fixed;
-  background-size: cover;
-  min-height: 100vh;
+    background: url("../images/2.jpg");
+    /* Show full image without cropping */
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 .hero {
@@ -166,7 +168,7 @@
     border-radius: 15px;
     width: 350px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    margin:10px;
+    margin: 10px;
     animation: fade 0.5s ease-in-out;
 }
 
@@ -242,7 +244,7 @@
 
 .prev:hover,
 .next:hover {
-    background:transparent;
+    background: transparent;
     color: #fff;
 }
 
@@ -270,12 +272,50 @@
 
 
 
+@media (max-width: 640px) {
 
-@media (max-width: 450px) {
-    
     .testimonial-card {
         margin: auto;
-        flex: 0 50% 50%;   
+        flex: 0 0 50%;
+    }
+
+    .hero {
+        max-width: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4rem 0;
+        flex-wrap: wrap;
+    }
+
+    .hero-text {
+        flex: 1;
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+    .testimonial-card {
+        margin: auto;
+        flex: 0 50% 50%;
+    }
+
+    .hero-text h1 {
+        font-weight: 700;
+        font-size: 35px;
+        line-height: 35px;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    .hero-text p {
+
+        font-weight: 700;
+        font-size: 20px;
+        padding-top: 30px;
+        line-height: 25px;
+        margin-bottom: 1rem;
+        letter-spacing: 0.2px;
+        text-align: center;
     }
 
 
