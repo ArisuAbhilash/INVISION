@@ -120,7 +120,7 @@ button:hover {
 }
 
 /* === PC/Desktop Layout === */
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   #columnSelection {
     justify-content: flex-start;
     flex-wrap: nowrap;
@@ -138,4 +138,4 @@ button:hover {
   }
 }
 
-
+ */

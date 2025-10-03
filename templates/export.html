@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/export.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="export-container">
+    <h2>📂 Data Export & Sharing</h2>
+    <p class="subtitle">Download your processed data, generate reports, or share visualizations.</p>
+
+    <!-- Export CSV/Excel -->
+    <div class="export-card">
+        <h3>Export Data</h3>
+        <p>Download your cleaned or filtered dataset as CSV or Excel.</p>
+        <button onclick="window.location.href='/download_csv'">Download CSV</button>
+        <button onclick="window.location.href='/download_excel'">Download Excel</button>
+    </div>
+
+    <!-- Report Generation -->
+    <div class="export-card">
+        <h3>Generate Report</h3>
+        <p>Create professional reports with charts & insights.</p>
+        <button onclick="window.location.href='/download_pdf'">Generate PDF</button>
+        <button onclick="window.location.href='/download_word'">Generate Word</button>
+    </div>
+
+    <!-- Shareable Link -->
+    <div class="export-card">
+        <h3>Shareable Links</h3>
+        <p>Create a shareable link for your charts & reports.</p>
+        <button onclick="generateLink()">Generate Link</button>
+        <input type="text" id="shareLink" readonly placeholder="Link will appear here">
+    </div>
+</div>
+
+<script>
+function generateLink() {
+    // Example: Replace with API call later
+    const link = window.location.origin + "/shared/12345";
+    document.getElementById("shareLink").value = link;
+    alert("Shareable link generated!");
+}
+</script>
+{% endblock %}
