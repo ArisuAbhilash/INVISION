@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="export-page">
+  <div class="export-container">
+    <h2>📄 Document Report Generator</h2>
+
+    <!-- Upload form -->
+    <form id="docForm" action="{{ url_for('report.analyze_report') }}" method="POST" enctype="multipart/form-data">
+
+      <div class="upload-box">
+        <p>Select a document to analyze (PDF / DOCX / TXT):</p>
+        <input type="file" name="document" accept=".pdf,.docx,.txt" required>
+      </div>
+
+      <div class="btns" style="margin-bottom:16px;">
+        <button type="submit" name="analyze" class="btn-primary">Generate Report</button>
+        {% if report_url %}
+        <!-- report_url should be provided by backend when analysis finished -->
+        <a href="{{ report_url }}" class="btn-download" target="_blank">Download PDF Report</a>
+        {% endif %}
+      </div>
+    </form>
+
+    <!-- Display messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-wrap">
+      {% for category, msg in messages %}
+      <div class="flash {{ category }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Metadata -->
+    {% if metadata %}
+    <section class="meta-section">
+      <h3>📁 Document Metadata</h3>
+      <table class="meta-table">
+        <tbody>
+          {% for key, value in metadata.items() %}
+          <tr>
+            <td class="meta-key">{{ key }}</td>
+            <td class="meta-val">{{ value }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+
+    <!-- Analytical Findings -->
+    {% if analysis %}
+    <section class="analysis-section">
+      <h3>🔎 Analytical Findings</h3>
+
+      <!-- Short summary -->
+      {% if analysis.summary %}
+      <div class="analysis-card">
+        <h4>Summary</h4>
+        <p>{{ analysis.summary }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Sentiment -->
+      {% if analysis.sentiment is not none %}
+      <div class="analysis-card">
+        <h4>Sentiment</h4>
+        <p>Polarity: <strong>{{ analysis.sentiment.polarity }}</strong>,
+          Subjectivity: <strong>{{ analysis.sentiment.subjectivity }}</strong></p>
+      </div>
+      {% endif %}
+
+      <!-- Frequent words -->
+      {% if analysis.top_words %}
+      <div class="analysis-card">
+        <h4>Most Frequent Words</h4>
+        <ul class="word-list">
+          {% for w, cnt in analysis.top_words %}
+          <li>{{ w }} <span class="count">({{ cnt }})</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- Readability / stats -->
+      <div class="analysis-row">
+        {% if analysis.readability %}
+        <div class="analysis-card small">
+          <h5>Readability</h5>
+          <p>{{ analysis.readability }}</p>
+        </div>
+        {% endif %}
+        {% if analysis.outliers %}
+        <div class="analysis-card small">
+          <h5>Outliers</h5>
+          <p>{{ analysis.outliers }}</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Embedded charts (if backend sends chart URLs) -->
+      {% if analysis.charts %}
+      <div class="charts-wrap">
+        <h4>Visuals</h4>
+        <div class="charts-grid">
+          {% for url in analysis.charts %}
+          <div class="chart-thumb">
+            <img src="{{ url_for('static', filename='reports/' ~ url) }}" alt="chart">
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

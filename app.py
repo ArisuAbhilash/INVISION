@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from charts import chart_bp  # import blueprint
 from export import export_bp
+from report import report_bp  # ✅ import blueprint
+
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -8,6 +10,7 @@ app.secret_key = "supersecretkey"
 # Register chart blueprint
 app.register_blueprint(chart_bp)
 app.register_blueprint(export_bp, url_prefix="/export")
+app.register_blueprint(report_bp)
 
 @app.route("/")
 def home():
