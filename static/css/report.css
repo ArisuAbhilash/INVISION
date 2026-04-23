@@ -1,129 +1,123 @@
-/* General page layout */
+/* ===== Base Page ===== */
 body {
-  font-family: 'Poppins', sans-serif;
-  background: #f4f6f9;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top left, #111827, #0f172a);
+  color: #e5e7eb;
   margin: 0;
   padding: 0;
-  color: #333;
+  min-height: 100vh;
 }
 
-/* Container styling */
+/* ===== Container ===== */
 .export-page {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
-  padding: 40px 20px;
+  padding: 100px 0;
 }
 
 .export-container {
-  background: #fff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
   width: 100%;
-  max-width: 900px;
-  animation: fadeIn 0.4s ease;
+  max-width: 1100px;
+  padding: 30px 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
-/* Header */
+/* ===== Title ===== */
 .export-container h2 {
   text-align: center;
+  font-size: 2rem;
+  color: #38bdf8;
   margin-bottom: 25px;
-  color: #2f3640;
-  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
-/* Upload box */
+/* ===== Upload Section ===== */
 .upload-box {
-  border: 2px dashed #007bff;
-  background: #f9fbff;
-  padding: 20px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 25px;
   text-align: center;
-  margin-bottom: 25px;
-  transition: all 0.3s ease;
+  transition: 0.3s;
+  margin-bottom: 20px;
 }
 
 .upload-box:hover {
-  background: #e9f2ff;
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.05);
 }
 
 .upload-box input[type="file"] {
   margin-top: 10px;
+  cursor: pointer;
+  color: #cbd5e1;
 }
 
-/* Buttons */
+/* ===== Buttons ===== */
 .btns {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
 }
 
-.btn-primary, .btn-download {
-  padding: 10px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  border: none;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.btn-primary {
-  background: #007bff;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background: #0056b3;
-}
-
+.btn-primary,
 .btn-download {
-  background: #28a745;
-  color: #fff;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
 }
 
+.btn-primary:hover,
 .btn-download:hover {
-  background: #1e7e34;
+  background: #0ea5e9;
+  transform: translateY(-2px);
 }
 
-/* Flash messages */
+/* ===== Flash Messages ===== */
 .flash-wrap {
-  margin-top: 20px;
+  margin: 25px 0;
 }
 
 .flash {
-  padding: 10px 16px;
+  padding: 12px 16px;
   border-radius: 6px;
-  font-size: 14px;
   margin-bottom: 10px;
+  font-size: 0.95rem;
 }
 
 .flash.success {
-  background: #d4edda;
-  color: #155724;
-  border-left: 4px solid #28a745;
+  background: rgba(16, 185, 129, 0.2);
+  border-left: 5px solid #10b981;
 }
 
-.flash.danger {
-  background: #f8d7da;
-  color: #721c24;
-  border-left: 4px solid #dc3545;
+.flash.error {
+  background: rgba(239, 68, 68, 0.2);
+  border-left: 5px solid #ef4444;
 }
 
-/* Metadata Section */
+/* ===== Metadata Section ===== */
 .meta-section {
-  background: #f8f9fa;
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 12px;
   padding: 20px;
-  margin-top: 30px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
 }
 
 .meta-section h3 {
-  color: #007bff;
+  color: #38bdf8;
   margin-bottom: 12px;
+  font-size: 1.3rem;
 }
 
 .meta-table {
@@ -132,84 +126,101 @@ body {
 }
 
 .meta-key {
-  font-weight: 500;
-  color: #555;
-  width: 35%;
-  padding: 6px 0;
+  color: #a5b4fc;
+  width: 30%;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .meta-val {
-  color: #333;
-  padding: 6px 0;
+  color: #e2e8f0;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Analysis Section */
+/* ===== Analysis Section ===== */
 .analysis-section {
-  margin-top: 30px;
+  margin-top: 40px;
+}
+
+.analysis-section h3 {
+  font-size: 1.5rem;
+  color: #38bdf8;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .analysis-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 18px 20px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .analysis-card h4 {
+  color: #a5b4fc;
   margin-bottom: 8px;
-  color: #2d3436;
-}
-
-.analysis-card p, .analysis-card ul {
-  margin: 0;
-  font-size: 15px;
-  color: #444;
 }
 
 .word-list {
   list-style: none;
-  padding: 0;
+  padding-left: 0;
 }
 
 .word-list li {
-  background: #f1f3f5;
-  margin: 5px 0;
-  padding: 6px 10px;
-  border-radius: 6px;
   display: flex;
   justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
 }
 
-/* Chart grid */
+.word-list li .count {
+  color: #38bdf8;
+}
+
+.analysis-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.analysis-card.small h5 {
+  margin-bottom: 6px;
+  color: #a5b4fc;
+}
+
+/* ===== Charts ===== */
 .charts-wrap {
-  margin-top: 25px;
+  margin-top: 30px;
+}
+
+.charts-wrap h4 {
+  color: #a5b4fc;
+  margin-bottom: 10px;
 }
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 15px;
 }
 
 .chart-thumb img {
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
 }
 
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .export-container {
-    padding: 20px;
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .analysis-row {
+    grid-template-columns: 1fr;
   }
-  .btns {
-    flex-direction: column;
+
+  .export-container {
+    padding: 25px;
   }
 }

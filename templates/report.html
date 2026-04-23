@@ -6,8 +6,8 @@
 
 {% block content %}
 <div class="export-page">
-  <div class="export-container">
-    <h2>📄 Document Report Generator</h2>
+  <!-- <div class="export-container"> -->
+    <!-- <h2>📄 Document Report Generator</h2> -->
 
     <!-- Upload form -->
     <form id="docForm" action="{{ url_for('report.analyze_report') }}" method="POST" enctype="multipart/form-data">
@@ -59,13 +59,6 @@
     <section class="analysis-section">
       <h3>🔎 Analytical Findings</h3>
 
-      <!-- Short summary -->
-      {% if analysis.summary %}
-      <div class="analysis-card">
-        <h4>Summary</h4>
-        <p>{{ analysis.summary }}</p>
-      </div>
-      {% endif %}
 
       <!-- Sentiment -->
       {% if analysis.sentiment is not none %}
@@ -104,6 +97,15 @@
         {% endif %}
       </div>
 
+      
+      <!-- Short summary -->
+      {% if analysis.summary %}
+      <div class="analysis-card">
+        <h4>Summary</h4>
+        <p>{{ analysis.summary }}</p>
+      </div>
+      {% endif %}
+
       <!-- Embedded charts (if backend sends chart URLs) -->
       {% if analysis.charts %}
       <div class="charts-wrap">
@@ -120,6 +122,6 @@
     </section>
     {% endif %}
 
-  </div>
+  <!-- </div> -->
 </div>
 {% endblock %}

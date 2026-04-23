@@ -1,65 +1,377 @@
+/* ── Base ── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Page Shell ── */
 .export-page {
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
-  padding: 20px;
-}
-
-.export-container {
-  max-width: 700px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.export-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.upload-box {
-  text-align: center;
-  padding: 20px;
-  border: 2px dashed #6c63ff;
-  border-radius: 10px;
-  background: #f1f1ff;
-  margin-bottom: 20px;
-}
-
-input[type="file"] {
-  margin-top: 10px;
-}
-
-.btns {
+  min-height: 100vh;
+  background: #0b0d14;
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
 }
 
-button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
+/* ── Ambient Orbs ── */
+.export-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.export-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+}
+.orb-1 { width: 500px; height: 500px; background: #4f46e5; top: -120px; left: -100px; animation: orbFloat 12s ease-in-out infinite; }
+.orb-2 { width: 380px; height: 380px; background: #0ea5e9; bottom: -80px; right: -60px; animation: orbFloat 15s ease-in-out infinite reverse; }
+.orb-3 { width: 260px; height: 260px; background: #8b5cf6; top: 50%; left: 55%; animation: orbFloat 9s ease-in-out infinite 3s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+/* ── Card Wrapper ── */
+.export-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 620px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 44px 40px 36px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+  animation: slideUp 0.5s ease both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ── */
+.export-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.export-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+}
+
+.export-icon {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
+
+.export-header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+
+.export-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 4px;
+  font-weight: 300;
+}
+
+/* ── Upload Zone ── */
+.upload-zone {
+  position: relative;
+  border: 1.5px dashed rgba(99, 102, 241, 0.45);
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
   cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
+  background: rgba(79, 70, 229, 0.05);
+  transition: border-color 0.25s, background 0.25s, transform 0.2s;
+  overflow: hidden;
 }
 
+.upload-zone:hover,
+.upload-zone.dragging {
+  border-color: rgba(99, 102, 241, 0.85);
+  background: rgba(79, 70, 229, 0.11);
+  transform: translateY(-2px);
+}
+
+.upload-zone.has-file {
+  border-color: rgba(16, 185, 129, 0.7);
+  background: rgba(16, 185, 129, 0.07);
+}
+
+.file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.upload-visual { position: relative; z-index: 1; }
+
+.upload-icon-ring {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(99, 102, 241, 0.4);
+  background: rgba(79, 70, 229, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.upload-zone:hover .upload-icon-ring {
+  border-color: rgba(99, 102, 241, 0.8);
+  background: rgba(79, 70, 229, 0.2);
+}
+
+.upload-svg {
+  width: 22px;
+  height: 22px;
+  color: #818cf8;
+}
+
+.upload-primary {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 6px;
+  transition: color 0.2s;
+}
+
+.upload-secondary {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 300;
+}
+
+.upload-link {
+  color: #818cf8;
+  font-weight: 500;
+}
+
+/* Subtle shimmer pulse in the bg of the upload zone */
+.upload-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(99,102,241,0.06) 0%, transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ── Divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 20px;
+  color: rgba(255,255,255,0.25);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* ── Button Grid ── */
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* ── Export Buttons ── */
+.export-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 12px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.export-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.25s;
+  background: rgba(255,255,255,0.05);
+}
+
+.export-btn:hover::before { opacity: 1; }
+.export-btn:hover { transform: translateY(-3px); }
+.export-btn:active { transform: translateY(0px) scale(0.97); }
+
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-icon svg { width: 18px; height: 18px; }
+
+.btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.btn-label {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  letter-spacing: 0.1px;
+}
+
+.btn-desc {
+  font-size: 11px;
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+.btn-arrow {
+  font-size: 15px;
+  opacity: 0.6;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.export-btn:hover .btn-arrow { transform: translateY(3px); opacity: 1; }
+
+/* CSV – Emerald */
 .btn-csv {
-  background: #28a745;
-  color: white;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
 }
+.btn-csv .btn-icon {
+  background: rgba(16, 185, 129, 0.18);
+}
+.btn-csv:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.22);
+}
+
+/* Excel – Sky */
 .btn-excel {
-  background: #17a2b8;
-  color: white;
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.3);
+  color: #7dd3fc;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
 }
+.btn-excel .btn-icon {
+  background: rgba(14, 165, 233, 0.18);
+}
+.btn-excel:hover {
+  background: rgba(14, 165, 233, 0.2);
+  border-color: rgba(14, 165, 233, 0.6);
+  box-shadow: 0 8px 28px rgba(14, 165, 233, 0.22);
+}
+
+/* PDF – Violet */
 .btn-pdf {
-  background: #dc3545;
-  color: white;
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #c4b5fd;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
 }
-button:hover {
-  opacity: 0.8;
+.btn-pdf .btn-icon {
+  background: rgba(139, 92, 246, 0.18);
+}
+.btn-pdf:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.22);
+}
+
+/* ── Meta Line ── */
+.export-meta {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  display: inline-block;
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .export-wrapper { padding: 32px 24px 28px; }
+  .btn-grid { grid-template-columns: 1fr; }
+  .export-btn { flex-direction: row; padding: 16px 18px; gap: 14px; text-align: left; }
+  .btn-text { align-items: flex-start; }
+  .btn-arrow { margin-left: auto; }
 }

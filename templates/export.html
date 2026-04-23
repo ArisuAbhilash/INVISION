@@ -2,23 +2,131 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/export.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <div class="export-page">
-  <div class="export-container">
-    <h2>📂 Data Export & Sharing</h2>
-    <form method="POST" enctype="multipart/form-data">
-      <div class="upload-box">
-        <p>Upload your CSV file:</p>
-        <input type="file" name="file" accept=".csv" required>
+
+  <div class="export-bg">
+    <div class="export-orb orb-1"></div>
+    <div class="export-orb orb-2"></div>
+    <div class="export-orb orb-3"></div>
+  </div>
+
+  <div class="export-wrapper">
+
+    <div class="export-header">
+      <div class="export-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="export-icon">
+          <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1M12 12V4M8 8l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-      <div class="btns">
-        <button type="submit" name="export_csv" class="btn-csv">Export CSV</button>
-        <button type="submit" name="export_excel" class="btn-excel">Export Excel</button>
-        <button type="submit" name="export_pdf" class="btn-pdf">Generate PDF Report</button>
+      <div>
+        <h1>Data Export &amp; Sharing</h1>
+        <p class="export-subtitle">Transform your raw data into polished reports</p>
       </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="export-form">
+
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" name="file" accept=".csv" required id="fileInput" class="file-input">
+        <div class="upload-visual">
+          <div class="upload-icon-ring">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="upload-svg">
+              <path d="M9 17H7A5 5 0 0 1 7 7h1M15 7h1a5 5 0 0 1 0 10h-1M12 12V4m0 0L9.5 6.5M12 4l2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="upload-primary" id="uploadLabel">Drop your CSV file here</p>
+          <p class="upload-secondary">or <span class="upload-link">browse files</span> &nbsp;·&nbsp; .csv only</p>
+        </div>
+        <div class="upload-pulse"></div>
+      </div>
+
+      <div class="divider">
+        <span>Export as</span>
+      </div>
+
+      <div class="btn-grid">
+        <button type="submit" name="export_csv" class="export-btn btn-csv">
+          <span class="btn-icon">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4a1 1 0 0 1 1-1h5.586a1 1 0 0 1 .707.293l5.414 5.414A1 1 0 0 1 16 9.414V16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M8 3v5a1 1 0 0 0 1 1h5" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="btn-text">
+            <span class="btn-label">Export CSV</span>
+            <span class="btn-desc">Raw data file</span>
+          </span>
+          <span class="btn-arrow">↓</span>
+        </button>
+
+        <button type="submit" name="export_excel" class="export-btn btn-excel">
+          <span class="btn-icon">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2 7h16M7 7v10" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span class="btn-text">
+            <span class="btn-label">Export Excel</span>
+            <span class="btn-desc">Spreadsheet format</span>
+          </span>
+          <span class="btn-arrow">↓</span>
+        </button>
+
+        <button type="submit" name="export_pdf" class="export-btn btn-pdf">
+          <span class="btn-icon">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 3h7.586a1 1 0 0 1 .707.293l3.414 3.414A1 1 0 0 1 16 7.414V17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M11 3v5h5M7 13h6M7 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="btn-text">
+            <span class="btn-label">PDF Report</span>
+            <span class="btn-desc">Formatted report</span>
+          </span>
+          <span class="btn-arrow">↓</span>
+        </button>
+      </div>
+
     </form>
+
+    <div class="export-meta">
+      <span class="meta-dot"></span>
+      Secure · No data stored · Instant download
+    </div>
+
   </div>
 </div>
+
+<script>
+  const zone = document.getElementById('uploadZone');
+  const input = document.getElementById('fileInput');
+  const label = document.getElementById('uploadLabel');
+
+  zone.addEventListener('click', () => input.click());
+
+  input.addEventListener('change', () => {
+    if (input.files.length) {
+      label.textContent = input.files[0].name;
+      zone.classList.add('has-file');
+    }
+  });
+
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragging'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragging'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('dragging');
+    const dt = e.dataTransfer;
+    if (dt.files.length) {
+      input.files = dt.files;
+      label.textContent = dt.files[0].name;
+      zone.classList.add('has-file');
+    }
+  });
+</script>
 {% endblock %}

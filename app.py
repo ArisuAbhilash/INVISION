@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from charts import chart_bp  # import blueprint
 from export import export_bp
-from report import report_bp  # ✅ import blueprint
+from report import report_bp  #  import blueprint
 
 
 app = Flask(__name__)
