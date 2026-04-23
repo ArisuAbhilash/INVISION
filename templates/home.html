@@ -1,161 +1,147 @@
 {% extends "base.html" %}
-
+{% block title %}Home{% endblock %}
 {% block head %}
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
-
-<!-- Hero Section -->
-<section class="hero container">
-    <div class="hero-text">
-        <h1>Discover patterns.Unlock insights.See the story in your data.</h1>
-        <p>Your data holds countless stories. We give you the tools to unlock, explore, and present those
-            stories with clarity,precision, and impact.</p>
+<!-- Hero -->
+<section class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-bg2"></div>
+  <div class="hero-bg3"></div>
+  <div class="hero-badge"><i class="fas fa-sparkles"></i> New: AI-Powered Report Analysis</div>
+  <h1 class="hero-h1">See the story <span>hidden in your data</span></h1>
+  <p class="hero-p">Upload any dataset and InVision transforms it into stunning, interactive visualizations—instantly. No code required.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.signup') }}"><i class="fas fa-rocket"></i> Start Free</a>
+    <a class="btn btn-ghost btn-lg" href="{{ url_for('visualize.index') }}"><i class="fas fa-chart-bar"></i> Try Demo</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num" id="stat1">0</span><span class="stat-label">Datasets Analyzed</span></div>
+    <div class="stat-item"><span class="stat-num" id="stat2">0</span><span class="stat-label">Charts Created</span></div>
+    <div class="stat-item"><span class="stat-num" id="stat3">0</span><span class="stat-label">Happy Users</span></div>
+  </div>
+  <div class="hero-preview">
+    <div class="preview-bar">
+      <div class="preview-dot" style="background:#ff5f57"></div>
+      <div class="preview-dot" style="background:#febc2e"></div>
+      <div class="preview-dot" style="background:#28c840"></div>
+      <span class="preview-label">invision.app — dashboard</span>
     </div>
+    <div class="preview-chart-area"><canvas id="heroChart"></canvas></div>
+  </div>
 </section>
 
-<!-- Features Section -->
-<section class="features container">
-    <h2>Why Choose Us</h2>
-    <div class="feature-grid">
-
-        <!-- Card 1 -->
-        <a href="{{ url_for('charts.visualize') }}" class="card">
-            <div class="icon">
-                <img src="{{ url_for('static', filename='images/graph-icon.png') }}" alt="Graph">
-            </div>
-            <h3>Visualize Data</h3>
-            <p>Upload your files and generate stunning charts & graphs.
-                Upload your files and generate stunning charts & graphs.
-            </p>
-        </a>
-
-        <!-- Card 2 -->
-        <a href="{{ url_for('export.export_home') }}" class="card">
-            <div class="icon">
-                <img src="secure-icon.png" alt="Secure">
-            </div>
-            <h3>Export & Sharing</h3>
-            <p>Export data, generate reports, and create shareable links.</p>
-        </a>
-
-        <!-- Card 3 -->
-        <a href="{{ url_for('report.analyze_report') }}" class="card">
-            <div class="icon">
-                <img src="customize-icon.png" alt="Customizable">
-            </div>
-            <h3>Customizable</h3>
-            <p>Easy to edit and extend.</p>
-        </a>
-
+<!-- Features -->
+<section class="section">
+  <div class="section-label">Why InVision</div>
+  <h2 class="section-title">Everything you need to make<br>data speak</h2>
+  <p class="section-sub">From raw CSV files to boardroom-ready reports in minutes.</p>
+  <div class="features-grid">
+    <a class="feature-card" href="{{ url_for('visualize.index') }}">
+      <div class="feat-icon"><i class="fas fa-chart-area"></i></div>
+      <h3>Smart Visualization</h3>
+      <p>Upload CSV or Excel and get beautiful interactive charts. Bar, line, pie, radar, polar—your choice.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('report.index') }}">
+      <div class="feat-icon teal"><i class="fas fa-brain"></i></div>
+      <h3>AI-Powered Reports</h3>
+      <p>Sentiment analysis, keyword extraction, readability scores, and key insights—automatically.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('export.index') }}">
+      <div class="feat-icon amber"><i class="fas fa-file-export"></i></div>
+      <h3>Flexible Export</h3>
+      <p>Export your data as CSV, Excel, JSON, or polished PDF reports. Share with your team instantly.</p>
+    </a>
+    <a class="feature-card" href="{{ url_for('dashboard.index') }}">
+      <div class="feat-icon rose"><i class="fas fa-gauge-high"></i></div>
+      <h3>Unified Dashboard</h3>
+      <p>Track upload history, saved charts, and analytics in one clean workspace.</p>
+    </a>
+    <div class="feature-card">
+      <div class="feat-icon"><i class="fas fa-shield-halved"></i></div>
+      <h3>Secure by Design</h3>
+      <p>Your data never leaves your session. Files are processed securely and never stored permanently.</p>
     </div>
+    <div class="feature-card">
+      <div class="feat-icon teal"><i class="fas fa-moon"></i></div>
+      <h3>Dark & Light Modes</h3>
+      <p>Work comfortably at any hour with our carefully crafted dark and light themes.</p>
+    </div>
+  </div>
 </section>
-
-
 
 <!-- Testimonials -->
 <section class="testimonials">
-    <div class="container1">
-        <h2>What Our Users Say</h2>
-
-        <!-- Slider wrapper -->
-        <div class="testimonial-slider">
-
-            <!-- Slide 1 -->
-            <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 1" class="user-pic">
-                <h4>Alex Johnson</h4>
-                <p class="role">Data Analyst</p>
-                <blockquote>"This landing page is super clean and easy to use!"</blockquote>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 2" class="user-pic">
-                <h4>Priya Sharma</h4>
-                <p class="role">Software Engineer</p>
-                <blockquote>"The best starting template I’ve used so far."</blockquote>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 3" class="user-pic">
-                <h4>John Doe</h4>
-                <p class="role">Product Manager</p>
-                <blockquote>"Saved me hours of work, looks professional."</blockquote>
-            </div>
-            <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/user1.png') }}" alt="User 2" class="user-pic">
-                <h4>kushagra Sharma</h4>
-                <p class="role">Software Engineer</p>
-                <blockquote>"The best starting template I’ve used so far."</blockquote>
-            </div>
-
-            <!-- Navigation arrows -->
-            <a class="prev">&#10094;</a>
-            <a class="next">&#10095;</a>
-        </div>
-
-        <!-- Navigation dots -->
-        <div class="dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
+  <div class="section" style="padding-top:4rem;padding-bottom:4rem">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">Trusted by data teams</h2>
+    <div class="testimonial-grid">
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p>"InVision completely replaced our old BI workflow. We go from raw CSV to shareable charts in under 5 minutes."</p>
+        <div class="tcard-author"><div class="tcard-avatar">AJ</div><div><div class="tcard-name">Alex Johnson</div><div class="tcard-role">Data Analyst, TechCorp</div></div></div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p>"The AI report analysis is phenomenal. It surfaces insights I'd have missed manually—in seconds."</p>
+        <div class="tcard-author"><div class="tcard-avatar">PS</div><div><div class="tcard-name">Priya Sharma</div><div class="tcard-role">Product Manager, Finnovate</div></div></div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p>"Best free data visualization tool I've used. Clean UI, gorgeous charts, and perfect exports."</p>
+        <div class="tcard-author"><div class="tcard-avatar">KM</div><div><div class="tcard-name">Kushagra Maurya</div><div class="tcard-role">Software Engineer</div></div></div>
+      </div>
     </div>
+  </div>
 </section>
 
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Ready to unlock your data?</h2>
+    <p>Join thousands of teams who use InVision to make better decisions, faster.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.signup') }}"><i class="fas fa-arrow-right"></i> Create Free Account</a>
+  </div>
+</section>
 
-{% block scripts %}
-<script>
-    const slides = document.querySelectorAll(".testimonial-card");
-    const dots = document.querySelectorAll(".dot");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
-    let currentIndex = 0;
-    const itemsPerSlide = 2; // Show 2 testimonials at a time
-
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.style.display = "none";
-        });
-
-        for (let i = 0; i < itemsPerSlide; i++) {
-            let slideIndex = (index + i) % slides.length;
-            slides[slideIndex].style.display = "block";
-        }
-
-        dots.forEach(dot => dot.classList.remove("active"));
-        dots[Math.floor(index / itemsPerSlide)].classList.add("active");
-    }
-
-    function nextSlide() {
-        currentIndex = (currentIndex + itemsPerSlide) % slides.length;
-        showSlide(currentIndex);
-    }
-
-    function prevSlide() {
-        currentIndex = (currentIndex - itemsPerSlide + slides.length) % slides.length;
-        showSlide(currentIndex);
-    }
-
-    dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => {
-            currentIndex = i * itemsPerSlide;
-            showSlide(currentIndex);
-        });
-    });
-
-    nextBtn.addEventListener("click", nextSlide);
-    prevBtn.addEventListener("click", prevSlide);
-
-    // Auto slide every 5 seconds
-    setInterval(nextSlide, 5000);
-
-    // Show the first pair by default
-    showSlide(currentIndex);
-</script>
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">InVision</div>
+      <p>Unlock the power of data with clarity, precision, and impact. Built in Lucknow, India.</p>
+    </div>
+    <div class="footer-col"><h4>Platform</h4><ul>
+      <li><a href="{{ url_for('visualize.index') }}">Visualize</a></li>
+      <li><a href="{{ url_for('report.index') }}">Reports</a></li>
+      <li><a href="{{ url_for('export.index') }}">Export</a></li>
+      <li><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Company</h4><ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Careers</a></li>
+      <li><a href="{{ url_for('contact.index') }}">Contact</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 InVision. All rights reserved. Made with ♥ in Lucknow, UP</p>
+    <div class="social-links">
+      <a class="social-link" href="#"><i class="fab fa-facebook-f"></i></a>
+      <a class="social-link" href="#"><i class="fab fa-twitter"></i></a>
+      <a class="social-link" href="#"><i class="fab fa-instagram"></i></a>
+      <a class="social-link" href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</footer>
 {% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}

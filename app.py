@@ -1,54 +1,51 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from charts import chart_bp  # import blueprint
-from export import export_bp
-from report import report_bp  #  import blueprint
+"""
+InVision - Data Intelligence Platform
+Flask Backend Entry Point
+"""
+from dotenv import load_dotenv
+load_dotenv()
+from flask import Flask
+from extensions import db, login_manager, mail
+from config import Config
+
+# ── Blueprint imports ──────────────────────────────────────────────────────────
+from routes.auth      import auth_bp
+from routes.dashboard import dashboard_bp
+from routes.visualize import visualize_bp
+from routes.report    import report_bp
+from routes.export    import export_bp
+from routes.contact   import contact_bp
+from routes.home      import home_bp
 
 
-app = Flask(__name__)
-app.secret_key = "supersecretkey"
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
-# Register chart blueprint
-app.register_blueprint(chart_bp)
-app.register_blueprint(export_bp, url_prefix="/export")
-app.register_blueprint(report_bp)
+    # ── Init extensions ────────────────────────────────────────────────────────
+    db.init_app(app)
+    login_manager.init_app(app)
+    mail.init_app(app)
 
-@app.route("/")
-def home():
-    return render_template("home.html", title="Home")
+    login_manager.login_view = "auth.login"
+    login_manager.login_message_category = "info"
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-        if email == "admin@example.com" and password == "1234":
-            flash("Login successful!", "success")
-            return redirect(url_for("home"))
-        else:
-            flash("Invalid credentials. Try again.", "danger")
-    return render_template("login.html", title="Login", login_page=True)
+    # ── Register blueprints ────────────────────────────────────────────────────
+    app.register_blueprint(home_bp)
+    app.register_blueprint(auth_bp,      url_prefix="/auth")
+    app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
+    app.register_blueprint(visualize_bp, url_prefix="/visualize")
+    app.register_blueprint(report_bp,    url_prefix="/report")
+    app.register_blueprint(export_bp,    url_prefix="/export")
+    app.register_blueprint(contact_bp,   url_prefix="/contact")
 
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
-    error = None
-    if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-        confirm_password = request.form.get("confirm_password")
-        if password != confirm_password:
-            error = "Passwords do not match!"
-        else:
-            flash("Signup successful! Please log in.", "success")
-            return redirect(url_for("login"))
-    return render_template("signup.html", signup_page=True, error=error)
+    # ── Create DB tables ───────────────────────────────────────────────────────
+    with app.app_context():
+        db.create_all()
 
-@app.route("/contact")
-def contact():
-    return render_template("contact.html", title="Contact")
+    return app
 
-@app.route("/privacy")
-def privacy():
-    return render_template("privacy.html", title="Privacy Policy")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app = create_app()
+    app.run(debug=True, host="0.0.0.0", port=5000)

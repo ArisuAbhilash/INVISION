@@ -1,46 +1,60 @@
 {% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 {% endblock %}
 
-
-
 {% block content %}
-<div class="main-content">
-    <div class="signup-page">
-        <div class="signup-box">
-            <h2>Create Account</h2>
-            <form method="POST" action="{{ url_for('signup') }}">
+<div class="auth-page">
+  <div class="auth-bg"></div>
+  <div class="auth-card">
+    <div class="auth-logo">InVision</div>
+    <h2>Create your account</h2>
+    <p class="subtitle">Start visualizing your data today — free forever</p>
 
-                <div class="input-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
+    {% if error %}
+      <div class="alert alert-error"><i class="fas fa-circle-exclamation"></i> {{ error }}</div>
+    {% endif %}
 
-                <div class="input-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-                </div>
-                {% if error %}
-                <p style="color:red; text-align:center;">{{ error }}</p>
-                {% endif %}
-                <button type="submit" class="signup-btn">Sign Up</button>
-            </form>
-
-            <p class="login-text">Already have an account?
-                <a href="{{ url_for('login') }}">Login</a>
-            </p>
+    <form method="POST" action="{{ url_for('auth.signup') }}" id="signupForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="name">Full Name</label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="John Doe" autocomplete="name" required>
+        <div class="error-msg" id="nameErr">Name is required.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <div class="error-msg" id="emailErr">Please enter a valid email.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-wrapper">
+          <input class="form-input" type="password" id="password" name="password" placeholder="Min 8 characters" autocomplete="new-password" required oninput="checkStrength(this.value)">
+          <button type="button" class="input-toggle" onclick="togglePwd('password', this)"><i class="fas fa-eye"></i></button>
         </div>
-    </div>
+        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+        <div class="error-msg" id="pwdErr">Minimum 8 characters required.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="confirm_password">Confirm Password</label>
+        <div class="input-wrapper">
+          <input class="form-input" type="password" id="confirm_password" name="confirm_password" placeholder="Repeat password" autocomplete="new-password" required>
+          <button type="button" class="input-toggle" onclick="togglePwd('confirm_password', this)"><i class="fas fa-eye"></i></button>
+        </div>
+        <div class="error-msg" id="confirmErr">Passwords do not match.</div>
+      </div>
+      <button type="submit" class="btn btn-primary w-full btn-submit"><i class="fas fa-user-plus"></i> Create Account</button>
+    </form>
+
+    <div class="auth-divider"><span>or</span></div>
+    <a class="btn btn-ghost w-full" href="#" style="justify-content:center"><i class="fab fa-google"></i> Continue with Google</a>
+    <div class="auth-switch">Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a></div>
+  </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+<script>initSignup();</script>
 {% endblock %}

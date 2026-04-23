@@ -1,110 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InVision - Data Insights & Visualization</title>
+  <title>{% block title %}InVision{% endblock %} — Data Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
   {% block head %}{% endblock %}
 </head>
-
 <body>
-  <nav class="container">
-    <!-- Hamburger menu (hidden on desktop) -->
-    <div class="hamburger" id="hamburger">☰</div>
 
-    <!-- Logo -->
-    <div class="logo">
-      <a href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Logo">
-      </a>
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Loader overlay -->
+  <div class="loader-overlay" id="loader">
+    <div class="loader-box">
+      <div class="loader-spin"></div>
+      <p id="loaderText">Processing...</p>
     </div>
+  </div>
 
-    <!-- Navigation menu -->
-    <ul id="nav-menu">
-      <span class="close-btn" id="close-btn">&times;</span><!-- Close button -->
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('contact') }}">Contact</a></li>
-      <li><a href="{{ url_for('privacy') }}">Policy</a></li>
-      <li><a href="{{url_for('signup') }}">Signup</a></li>
-    </ul>
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" id="mobileClose"><i class="fas fa-times"></i></button>
+    <a class="mobile-nav-link" href="{{ url_for('home.index') }}">Home</a>
+    {% if current_user.is_authenticated %}
+      <a class="mobile-nav-link" href="{{ url_for('dashboard.index') }}">Dashboard</a>
+      <a class="mobile-nav-link" href="{{ url_for('visualize.index') }}">Visualize</a>
+      <a class="mobile-nav-link" href="{{ url_for('report.index') }}">Reports</a>
+      <a class="mobile-nav-link" href="{{ url_for('export.index') }}">Export</a>
+    {% endif %}
+    <a class="mobile-nav-link" href="{{ url_for('contact.index') }}">Contact</a>
+    {% if current_user.is_authenticated %}
+      <a class="mobile-nav-link" href="{{ url_for('auth.logout') }}">Sign Out</a>
+    {% else %}
+      <a class="mobile-nav-link" href="{{ url_for('auth.login') }}">Login</a>
+      <a class="mobile-nav-link" href="{{ url_for('auth.signup') }}">Sign Up</a>
+    {% endif %}
+  </div>
 
-    <!-- Login button -->
-    <a href="{{ url_for('login') }}" class="btn">Login</a>
+  <!-- Top nav -->
+  <nav class="topnav">
+    <a class="nav-logo" href="{{ url_for('home.index') }}">InVision</a>
+    <div class="nav-links">
+      <a class="nav-link {% if request.endpoint == 'home.index' %}active{% endif %}" href="{{ url_for('home.index') }}">Home</a>
+      {% if current_user.is_authenticated %}
+        <a class="nav-link {% if 'dashboard' in request.endpoint %}active{% endif %}" href="{{ url_for('dashboard.index') }}">Dashboard</a>
+        <a class="nav-link {% if 'visualize' in request.endpoint %}active{% endif %}" href="{{ url_for('visualize.index') }}">Visualize</a>
+        <a class="nav-link {% if 'report' in request.endpoint %}active{% endif %}" href="{{ url_for('report.index') }}">Reports</a>
+        <a class="nav-link {% if 'export' in request.endpoint %}active{% endif %}" href="{{ url_for('export.index') }}">Export</a>
+      {% endif %}
+      <a class="nav-link {% if 'contact' in request.endpoint %}active{% endif %}" href="{{ url_for('contact.index') }}">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme"><i class="fas fa-moon" id="themeIcon"></i></button>
+      {% if current_user.is_authenticated %}
+        <a class="btn btn-ghost" href="{{ url_for('dashboard.index') }}">Dashboard</a>
+        <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">Sign Out</a>
+      {% else %}
+        <a class="btn btn-ghost" href="{{ url_for('auth.login') }}">Login</a>
+        <a class="btn btn-primary" href="{{ url_for('auth.signup') }}">Get Started</a>
+      {% endif %}
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </nav>
 
-  <main class="main-content">
-    {% block content %}{% endblock %}
-  </main>
+  <!-- Flash messages (rendered as toasts via JS) -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <script>
+        window.__flashMessages = {{ messages | tojson }};
+      </script>
+    {% endif %}
+  {% endwith %}
 
-  <!-- Footer -->
-  {% if not login_page and not signup_page %}
+  <!-- Page content -->
+  <main>{% block content %}{% endblock %}</main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-
-      <!-- About / Address -->
-      <div class="footer-section">
-        <h3>InVision</h3>
-        <p>Unlock the power of data with clarity and insights.</p>
-        <p><strong>Address:</strong> Lucknow, Uttar Pradesh, India</p>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-        </ul>
-      </div>
-
-      <!-- Social Media -->
-      <div class="footer-section">
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-        </div>
-      </div>
-
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 InVision. All rights reserved.</p>
-    </div>
-  </footer>
-
-  {% endif %}
-  <script>
-    const hamburger = document.getElementById("hamburger");
-    const navMenu = document.getElementById("nav-menu");
-    const closeBtn = document.getElementById("close-btn");
-
-    // Open menu
-    hamburger.addEventListener("click", () => {
-      navMenu.classList.add("active");
-    });
-
-    // Close menu
-    closeBtn.addEventListener("click", () => {
-      navMenu.classList.remove("active");
-    });
-
-    // Close when clicking a link
-    document.querySelectorAll("#nav-menu a").forEach(link => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("active");
-      });
-    });
-  </script>
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
-
 </html>

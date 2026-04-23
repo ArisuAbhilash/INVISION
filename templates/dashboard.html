@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">{{ current_user.name[:2].upper() }}</div>
+        <div>
+          <div class="sidebar-username">{{ current_user.name }}</div>
+          <div class="sidebar-email">{{ current_user.email }}</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Main</div>
+        <button class="sidebar-item active" data-tab="overview"><i class="fas fa-gauge-high"></i> Overview</button>
+        <button class="sidebar-item" data-tab="history"><i class="fas fa-clock-rotate-left"></i> Upload History <span class="badge">{{ stats.total_uploads }}</span></button>
+        <button class="sidebar-item" data-tab="charts"><i class="fas fa-chart-bar"></i> Saved Charts</button>
+        <button class="sidebar-item" data-tab="activity"><i class="fas fa-list-ul"></i> Activity Log</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Tools</div>
+        <a class="sidebar-item" href="{{ url_for('visualize.index') }}"><i class="fas fa-upload"></i> New Upload</a>
+        <a class="sidebar-item" href="{{ url_for('report.index') }}"><i class="fas fa-file-lines"></i> Report Analysis</a>
+        <a class="sidebar-item" href="{{ url_for('export.index') }}"><i class="fas fa-file-export"></i> Export Data</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Account</div>
+        <a class="sidebar-item" href="#"><i class="fas fa-user-circle"></i> Profile</a>
+        <a class="sidebar-item" href="#"><i class="fas fa-gear"></i> Settings</a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a class="sidebar-item" href="{{ url_for('auth.logout') }}"><i class="fas fa-right-from-bracket"></i> Sign Out</a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="dash-main">
+
+    <!-- ── Overview tab ── -->
+    <div class="dash-tab active" id="tab-overview">
+      <div class="dash-header">
+        <h1>Good day, {{ current_user.name.split()[0] }} 👋</h1>
+        <p>Here's what's happening with your data.</p>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Uploads</div>
+          <div class="kpi-num accent">{{ stats.total_uploads }}</div>
+          <div class="kpi-change up"><i class="fas fa-arrow-trend-up"></i> All time</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Charts Created</div>
+          <div class="kpi-num teal">{{ stats.total_charts }}</div>
+          <div class="kpi-change up"><i class="fas fa-arrow-trend-up"></i> All time</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Reports Run</div>
+          <div class="kpi-num amber">{{ stats.total_reports }}</div>
+          <div class="kpi-change up"><i class="fas fa-arrow-trend-up"></i> All time</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <div><div class="dash-card-title">Activity (7 days)</div></div>
+            <span class="chip chip-green">Live</span>
+          </div>
+          <div style="height:200px"><canvas id="activityChart"></canvas></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <div><div class="dash-card-title">Recent Uploads</div></div>
+            <button class="btn btn-ghost btn-sm" data-switch-tab="history">View all</button>
+          </div>
+          <div class="upload-history">
+            {% for f in uploads[:3] %}
+            <div class="upload-item">
+              <div class="upload-icon {{ f.file_type }}"><i class="fas fa-file-{{ 'csv' if f.file_type=='csv' else 'excel' if f.file_type in ['xlsx','xls'] else 'pdf' if f.file_type=='pdf' else 'lines' }}"></i></div>
+              <div>
+                <div class="upload-name">{{ f.filename }}</div>
+                <div class="upload-meta">{{ (f.size_bytes/1024)|round(1) }} KB · {{ f.uploaded_at.strftime('%b %d') }}</div>
+              </div>
+              <a class="icon-btn" href="{{ url_for('visualize.index') }}" title="Visualize"><i class="fas fa-chart-bar"></i></a>
+            </div>
+            {% else %}
+            <div class="empty-state"><i class="fas fa-inbox"></i><p>No uploads yet. <a href="{{ url_for('visualize.index') }}">Upload your first file</a></p></div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Upload History tab ── -->
+    <div class="dash-tab" id="tab-history">
+      <div class="dash-header"><h1>Upload History</h1><p>All your past file uploads.</p></div>
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">All Files</div>
+          <span class="chip chip-accent">{{ uploads|length }} files</span>
+        </div>
+        {% if uploads %}
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>Filename</th><th>Type</th><th>Size</th><th>Rows</th><th>Uploaded</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              {% for f in uploads %}
+              <tr>
+                <td>{{ f.filename }}</td>
+                <td><span class="chip chip-{{ 'green' if f.file_type=='csv' else 'accent' if f.file_type in ['xlsx','xls'] else 'rose' }}">{{ f.file_type.upper() }}</span></td>
+                <td>{{ (f.size_bytes/1024)|round(1) }} KB</td>
+                <td>{{ f.row_count }}</td>
+                <td>{{ f.uploaded_at.strftime('%b %d, %H:%M') }}</td>
+                <td><span class="chip chip-{{ 'green' if f.status=='done' else 'amber' }}">{{ f.status }}</span></td>
+                <td>
+                  <a class="icon-btn" href="{{ url_for('visualize.index') }}" title="Visualize"><i class="fas fa-chart-bar"></i></a>
+                  <button class="icon-btn" onclick="deleteFile({{ f.id }})" title="Delete"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="empty-state"><i class="fas fa-inbox"></i><p>No uploads yet.</p></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- ── Saved Charts tab ── -->
+    <div class="dash-tab" id="tab-charts">
+      <div class="dash-header"><h1>Saved Charts</h1><p>Your chart library.</p></div>
+      {% if saved_charts %}
+      <div class="saved-charts-grid">
+        {% for c in saved_charts %}
+        <div class="dash-card chart-preview-card">
+          <div class="dash-card-header">
+            <div class="dash-card-title">{{ c.title }}</div>
+            <span class="chip chip-accent" style="font-size:0.7rem">{{ c.chart_type }}</span>
+          </div>
+          <div style="height:140px;display:flex;align-items:center;justify-content:center;color:var(--text3)">
+            <i class="fas fa-chart-{{ 'bar' if c.chart_type=='bar' else 'line' if c.chart_type=='line' else 'pie' }}" style="font-size:3rem;opacity:0.3"></i>
+          </div>
+          <div style="font-size:0.775rem;color:var(--text3);margin-top:0.5rem">{{ c.created_at.strftime('%b %d, %Y') }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state"><i class="fas fa-chart-bar"></i><p>No saved charts yet. <a href="{{ url_for('visualize.index') }}">Create your first chart</a></p></div>
+      {% endif %}
+    </div>
+
+    <!-- ── Activity tab ── -->
+    <div class="dash-tab" id="tab-activity">
+      <div class="dash-header"><h1>Activity Log</h1><p>Your full action history on InVision.</p></div>
+      <div class="dash-card">
+        {% if activities %}
+        <div class="activity-list">
+          {% for a in activities %}
+          <div class="activity-item">
+            <div class="activity-dot {{ 'green' if 'Upload' in a.action else 'blue' if 'chart' in a.action.lower() else 'amber' }}"></div>
+            <div class="activity-text">{{ a.action }}</div>
+            <div class="activity-time">{{ a.created_at.strftime('%b %d, %H:%M') }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><i class="fas fa-list-ul"></i><p>No activity yet.</p></div>
+        {% endif %}
+      </div>
+    </div>
+
+  </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

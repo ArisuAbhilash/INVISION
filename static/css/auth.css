@@ -1,0 +1,36 @@
+/* auth.css */
+.auth-page {
+  min-height:100vh; display:flex; align-items:center;
+  justify-content:center; padding:2rem;
+  background:var(--bg); position:relative; overflow:hidden;
+  padding-top:80px;
+}
+.auth-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(108,99,255,0.1),transparent); pointer-events:none }
+.auth-card {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:var(--radius); padding:2.5rem;
+  width:100%; max-width:420px; position:relative; z-index:1;
+}
+.auth-logo {
+  font-family:var(--font-head); font-size:1.5rem; font-weight:800;
+  background:linear-gradient(135deg,var(--accent2),var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; margin-bottom:0.5rem;
+}
+.auth-card h2    { font-family:var(--font-head); font-size:1.5rem; font-weight:700; margin-bottom:0.4rem }
+.auth-card .subtitle { font-size:0.875rem; color:var(--text2); margin-bottom:1.75rem }
+.form-footer {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:1.5rem; font-size:0.8rem;
+}
+.form-footer a { color:var(--accent2) }
+.remember-label { display:flex; align-items:center; gap:0.4rem; cursor:pointer }
+.auth-divider { display:flex; align-items:center; gap:1rem; margin:1.25rem 0 }
+.auth-divider span { color:var(--text3); font-size:0.8rem }
+.auth-divider::before,.auth-divider::after { content:''; flex:1; height:1px; background:var(--border) }
+.auth-switch { text-align:center; margin-top:1.5rem; font-size:0.875rem; color:var(--text2) }
+.auth-switch a { color:var(--accent2) }
+.strength-bar  { height:3px; border-radius:2px; background:var(--bg3); margin-top:0.5rem; overflow:hidden }
+.strength-fill { height:100%; border-radius:2px; transition:width 0.3s,background 0.3s; width:0 }
+.btn-submit    { justify-content:center; padding:0.75rem }
+@media(max-width:480px) { .auth-card { padding:1.75rem } }

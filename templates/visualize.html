@@ -1,62 +1,104 @@
 {% extends "base.html" %}
+{% block title %}Visualize{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/visualize.css') }}">
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
-<div class="viscontainer">
-    <h2>Upload CSV/Excel File</h2>
-
-    <!-- Upload Form -->
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="file" id="fileInput" accept=".csv, .xls, .xlsx" required>
-        <button type="submit">Upload</button>
-    </form>
-
-    <!-- Column selection -->
-    <div id="columnSelection" style="display:none; margin-top:20px;">
-        <label for="labelCol">Choose Label Column:</label>
-        <select id="labelCol"></select>
-
-        <label for="valueCol">Choose Value Column(s):</label>
-        <select id="valueCol" multiple></select>
-        <small id="multiHelp" style="color: gray; display:block;">
-            (Hold Ctrl or Cmd to select multiple columns)
-        </small>
-
-        <label for="chartType">Chart Type:</label>
-        <select id="chartType">
-            <option value="bar">Bar</option>
-            <option value="line">Line</option>
-            <option value="pie">Pie</option>
-            <option value="doughnut">Doughnut</option>
-            <option value="radar">Radar</option>
-            <option value="polarArea">Polar Area</option>
-        </select>
-
-        <label>
-            <input type="checkbox" id="showLegend" checked> Show Legend
-        </label>
-
-        <button id="generateChart">Generate Chart</button>
+<div class="vis-layout">
+  <div class="vis-header">
+    <div>
+      <h1><i class="fas fa-chart-area" style="color:var(--accent2)"></i> Data Visualizer</h1>
+      <p style="color:var(--text2);margin-top:0.25rem">Upload a CSV or Excel file to generate interactive charts.</p>
     </div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+      <button class="btn btn-ghost" id="loadSampleBtn"><i class="fas fa-database"></i> Load Sample</button>
+      <button class="btn btn-primary hidden" id="downloadChartBtn"><i class="fas fa-download"></i> Download Chart</button>
+    </div>
+  </div>
 
-    <hr>
-    <h3>Chart Preview</h3>
-    <div class="chart-container">
-        <canvas id="myChart"></canvas>
+  <!-- Upload zone -->
+  <div class="upload-zone" id="uploadZone">
+    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls">
+    <div class="upload-zone-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+    <h3>Drop your file here, or click to browse</h3>
+    <p>Upload a CSV or Excel file to start visualizing</p>
+    <div class="file-types">Supported: .csv, .xlsx, .xls · Max 10 MB</div>
+  </div>
+
+  <!-- File info bar (hidden until upload) -->
+  <div class="file-info-bar hidden" id="fileInfoBar">
+    <i class="fas fa-file-csv" style="color:var(--green)"></i>
+    <div>
+      <div class="file-info-name" id="fileName"></div>
+      <div class="file-info-meta" id="fileStats"></div>
     </div>
-    
-    <!-- Download Button -->
-    <div id="downloadSection" style="display:none; text-align:center; margin-top:15px;">
-        <button id="downloadChart">Download Chart</button>
+    <button class="btn btn-ghost btn-sm" id="clearFileBtn" style="margin-left:auto"><i class="fas fa-times"></i> Clear</button>
+  </div>
+
+  <!-- Controls -->
+  <div class="vis-controls hidden" id="visControls">
+    <div class="control-group">
+      <label>Label Column (X Axis)</label>
+      <select class="control-select" id="labelCol"></select>
     </div>
+    <div class="control-group">
+      <label>Value Column (Y Axis)</label>
+      <select class="control-select" id="valueCol"></select>
+    </div>
+    <div class="control-group">
+      <label>Chart Type</label>
+      <div class="chart-type-grid">
+        <button class="chart-type-btn active" data-type="bar"><i class="fas fa-chart-bar"></i> Bar</button>
+        <button class="chart-type-btn" data-type="line"><i class="fas fa-chart-line"></i> Line</button>
+        <button class="chart-type-btn" data-type="pie"><i class="fas fa-chart-pie"></i> Pie</button>
+        <button class="chart-type-btn" data-type="doughnut"><i class="fas fa-circle-notch"></i> Doughnut</button>
+        <button class="chart-type-btn" data-type="radar"><i class="fas fa-star"></i> Radar</button>
+        <button class="chart-type-btn" data-type="polarArea"><i class="fas fa-circle-half-stroke"></i> Polar</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <label>Options</label>
+      <label class="check-label"><input type="checkbox" id="showLegend" checked> Show Legend</label>
+      <label class="check-label"><input type="checkbox" id="showGrid" checked> Show Grid Lines</label>
+    </div>
+    <div class="control-group">
+      <label>&nbsp;</label>
+      <button class="btn btn-primary w-full" style="justify-content:center" id="generateBtn"><i class="fas fa-play"></i> Generate Chart</button>
+    </div>
+  </div>
+
+  <!-- Chart area -->
+  <div class="chart-area hidden" id="chartArea">
+    <div class="chart-area-header">
+      <div>
+        <div class="dash-card-title" id="chartTitle">Chart</div>
+        <div class="chart-subtitle" id="chartSubtitle"></div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn btn-ghost btn-sm" id="saveChartBtn"><i class="fas fa-bookmark"></i> Save</button>
+        <a class="btn btn-ghost btn-sm" href="{{ url_for('export.index') }}"><i class="fas fa-share-nodes"></i> Export</a>
+      </div>
+    </div>
+    <div class="canvas-wrap"><canvas id="mainChart"></canvas></div>
+  </div>
+
+  <!-- Data preview -->
+  <div class="dash-card hidden" id="dataPreview" style="margin-top:1.5rem">
+    <div class="dash-card-header">
+      <div class="dash-card-title">Data Preview</div>
+      <span class="chip chip-accent" id="rowCount"></span>
+    </div>
+    <div style="overflow-x:auto"><table class="data-table" id="previewTable"></table></div>
+  </div>
 </div>
+{% endblock %}
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('static', filename='script/visualize.js') }}"></script>
-
-
+{% block scripts %}
+<script>
+  const UPLOAD_URL    = "{{ url_for('visualize.upload') }}";
+  const SAVE_URL      = "{{ url_for('visualize.save_chart') }}";
+</script>
+<script src="{{ url_for('static', filename='js/visualize.js') }}"></script>
 {% endblock %}

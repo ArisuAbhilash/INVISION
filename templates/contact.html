@@ -1,113 +1,88 @@
 {% extends "base.html" %}
-
+{% block title %}Contact{% endblock %}
 {% block head %}
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
 {% endblock %}
 
 {% block content %}
+<div class="contact-layout">
+  <div class="contact-header">
+    <div class="section-label">Get in touch</div>
+    <h1>We'd love to hear from you</h1>
+    <p style="color:var(--text2);margin-top:0.5rem">Have a question or feedback? Drop us a message and we'll respond within 24 hours.</p>
+  </div>
 
+  <div class="contact-grid">
+    <!-- Left: info -->
+    <div class="contact-info">
+      <div class="contact-info-card">
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-info-text"><h4>Phone</h4><p>{{ phone_no }}</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-info-text"><h4>Email</h4><p>{{ email_id }}</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-location-dot"></i></div>
+          <div class="contact-info-text"><h4>Location</h4><p>Lucknow, Uttar Pradesh, India</p></div>
+        </div>
+      </div>
+      <div class="contact-info-card">
+        <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:1rem">Follow Us</div>
+        <div style="display:flex;gap:0.75rem">
+          <a class="social-link" href="https://www.facebook.com" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-link" href="https://www.instagram.com" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a class="social-link" href="https://www.linkedin.com" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+          <a class="social-link" href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
 
-
-
-<div class="ccontainer">
-    <main class="row">
-        <section class="col left">
-
-            <!--  *******   Title Starts   *******  -->
-
-            <div class="contactTitle">
-                <h2>Get In Touch</h2>
-                <p>We’d love to hear from you! Drop us a message, and we’ll get back to you soon.</p>
-            </div>
-
-            <!--  *******   Title Ends   *******  -->
-
-            <!--  *******   Contact Info Starts   *******  -->
-
-            <div class="contactInfo">
-
-                <div class="iconGroup">
-                    <div class="icon">
-                        <i class="fa-solid fa-phone"></i>
-                    </div>
-                    <div class="details">
-                        <span>Phone</span>
-                        <span>{{phone_no}}</span>
-                    </div>
-                </div>
-
-                <div class="iconGroup">
-                    <div class="icon">
-                        <i class="fa-solid fa-envelope"></i>
-                    </div>
-                    <div class="details">
-                        <span>Email</span>
-                        <span>{{email_id}}</span>
-                    </div>
-                </div>
-
-                <div class="iconGroup">
-                    <div class="icon">
-                        <i class="fa-solid fa-location-dot"></i>
-                    </div>
-                    <div class="details">
-                        <span>Location</span>
-                        <span>Lucknow, Uttar Pradesh</span>
-                    </div>
-                </div>
-            </div>
-            <div class="socialMedia">
-                <a href="https://www.facebook.com/share/16HVvBqAcX/"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/_abhilash_maurya_/"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/in/abhilash-maurya-365a941b8"><i
-                        class="fa-brands fa-linkedin-in"></i></a>
-            </div>
-        </section>
-
-
-        <section class="col right">
-            <p class="{{ category }}">{{ message }}</p>
-            <form action="{{ url_for('contact') }}" method="POST" class="messageForm">
-                <div class="inputGroup halfWidth">
-
-                    <!--  *******   Form Starts   *******  -->
-
-                    <form class="messageForm">
-
-                        <div class="inputGroup halfWidth">
-                            <input type="text" name="name" required="required">
-                            <label>Your Name</label>
-                        </div>
-
-                        <div class="inputGroup halfWidth">
-                            <input type="email" name="email" required="required">
-                            <label>Email</label>
-                        </div>
-
-                        <div class="inputGroup fullWidth">
-                            <input type="text" name="subject" required="required">
-                            <label>Subject</label>
-                        </div>
-
-                        <div class="inputGroup fullWidth">
-                            <textarea name="message" required="required"></textarea>
-                            <label>Say Something</label>
-                        </div>
-
-                        <div class="inputGroup fullWidth">
-                            <button>Send Message</button>
-                        </div>
-
-                    </form>
-
-
-                </div> <!--  *******   Form Ends   *******  -->
-        </section>
-
-        <!--  *******   Right Section (Column) Ends   *******  -->
-
-    </main>
+    <!-- Right: form -->
+    <div class="contact-form-card">
+      <h2 style="font-family:var(--font-head);font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Send a Message</h2>
+      <div class="alert alert-success hidden" id="contactSuccess">
+        <i class="fas fa-check-circle"></i> Message sent! We'll get back to you within 24 hours.
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="cName">Your Name</label>
+          <input class="form-input" type="text" id="cName" placeholder="John Doe">
+          <div class="error-msg" id="cNameErr">Name is required.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cEmail">Email Address</label>
+          <input class="form-input" type="email" id="cEmail" placeholder="you@example.com">
+          <div class="error-msg" id="cEmailErr">Valid email required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cSubject">Subject</label>
+        <input class="form-input" type="text" id="cSubject" placeholder="How can we help?">
+        <div class="error-msg" id="cSubjectErr">Subject is required.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cMsg">Message</label>
+        <textarea class="form-input" id="cMsg" placeholder="Tell us more..." maxlength="500" rows="5"
+          oninput="document.getElementById('charCount').textContent=this.value.length+'/500'"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="error-msg" id="cMsgErr">Message must be at least 10 characters.</div>
+          <div style="font-size:0.75rem;color:var(--text3);margin-left:auto" id="charCount">0/500</div>
+        </div>
+      </div>
+      <button class="btn btn-primary w-full" style="justify-content:center;padding:0.75rem" id="contactBtn">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </div>
+  </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
+<script>
+  const CONTACT_URL = "{{ url_for('contact.send') }}";
+</script>
+<script src="{{ url_for('static', filename='js/contact.js') }}"></script>
 {% endblock %}
