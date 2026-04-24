@@ -13,7 +13,8 @@ venv/
 env/
 .venv/
 ENV/
-
+.env
+.env.*
 # Flask instance folder
 instance/
 
